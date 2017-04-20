@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                template="./../layout/adminLayout.xhtml"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="title">
+        <title>Update employee</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <h3>UPDATE EMPLOYEE</h3>
+        <div class="tab-content">
+            <div class="tab-pane active" id="horizontal-form">
+                <h:form class="form-horizontal" id="f2">
+                    <div class="form-group">
+                        <h:outputLabel value="Id" class="col-sm-2 control-label"/>
+                        <div class="col-sm-8">
+                            <h:inputText class="form-control1" pt:placeholder="" readonly="true" value="#{adminMB.upid}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="Username" class="col-sm-2 control-label"/>
+                        <div class="col-sm-8">
+                            <h:inputText class="form-control1" pt:placeholder="*" readonly="true" value="#{adminMB.upname}" id="username"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel class="col-sm-2 control-label">Full name&nbsp;<span style="color: red">*</span></h:outputLabel>
+                        <div class="col-sm-8">
+                            <h:inputText class="form-control1" pt:placeholder="" value="#{adminMB.upfullname}" id="fullname"/>
+                        </div>
+                        <div class="col-sm-2">
+                            <h:message for="fullname" style="color: red"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel class="col-sm-2 control-label">Phone&nbsp;<span style="color: red">*</span></h:outputLabel>
+                        <div class="col-sm-8">
+                            <h:inputText class="form-control1" pt:placeholder="" value="#{adminMB.upphone}" id="phone"/>
+                        </div>
+                        <div class="col-sm-2">
+                            <h:message for="phone" style="color: red"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="Address" class="col-sm-2 control-label"/>
+                        <div class="col-sm-8">
+                            <h:inputTextarea class="form-control1" style="height: 120px" pt:placeholder="" value="#{adminMB.upaddress}" id="address"/>
+                        </div>
+                        <div class="col-sm-2">
+                            <h:message for="address" style="color: red"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel class="col-sm-2 control-label">Admin Group&nbsp;<span style="color: red">*</span></h:outputLabel>
+                        <div class="col-sm-8">
+                            <h:selectOneMenu value="#{adminMB.adGroupId}">
+                                <f:selectItems value="#{adminMB.showAdminGroup()}" var="adGr" itemLabel="#{adGr.name}" itemValue="#{adGr.id}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputLabel value="Status" class="col-sm-2 control-label"/>
+                        <div class="col-sm-8">
+                            <h:inputText class="form-control1" pt:placeholder="" readonly="true" value="#{adminMB.upstatus}"/>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <h:commandButton class="btn-success btn" value="Submit" action="#{adminMB.editEmployee()}"/>
+                                <h:commandButton class="btn-inverse btn" value="Cancel" action="#{adminMB.displayDetail(adminMB.editedAd.id)}"/>
+                            </div>
+                        </div>
+                    </div>
+
+                </h:form>
+                <div class="panel-footer">
+                    <h:form><h:commandLink value="Back to employees list" action="#{adminMB.show()}"/></h:form>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>
+

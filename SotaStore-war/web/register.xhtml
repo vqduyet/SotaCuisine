@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./layout/mainLayout.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:a="http://java.sun.com/jsf/passthrough">
+
+    <ui:define name="title">
+        <title>Register</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <style>
+            .selectRadio label {
+                margin-right: 50px;
+            }
+            .message {
+                font-size: smaller;
+                color: red;
+            }
+        </style>
+        <div class="content">
+            <div class="container" style="margin-top: 20px; margin-bottom: 20px">
+                <div class="col-lg-6 col-md-6 col-sm-6 animated fadeInUp">
+                    <div class="row" style="padding: 30px; background-color: #ccc; border-radius: 7px; box-shadow: 10px 10px 5px #888888">
+                        <div class="col-lg-12 col-md-12 col-sm-12" align="center">
+                            <h3 style="font-size: xx-large; font-weight: bold; color: #026660">REGISTER</h3>
+                            <hr style="border-bottom: 1px solid #fff "/>
+                        </div>
+                        <h:form id="registerForm" class="form-horizontal" prependId="false" >
+                            <div class="form-group">
+                                <label class="col-lg-4 col-md-4 col-sm-4 control-label" style="font-weight: bold; color: #026660">User Name <span style="color: orange; font-weight: bold; font-size: 15px">*</span></label>
+                                <div class="col-lg-7 col-md-7 col-sm-7">
+                                    <h:inputText id="txtUserName" value="#{usersMB.registeringGuest.userName}" class="form-control" required="true" requiredMessage="Please input Username"/>
+                                    <h:message for="txtUserName" class="message"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-4 col-md-4 col-sm-4 control-label" style="font-weight: bold; color: #026660">Password <span style="color: orange; font-weight: bold; font-size: 15px">*</span></label>
+                                <div class="col-lg-7 col-md-7 col-sm-7">
+                                    <h:inputSecret id="txtPassword" value="#{usersMB.registeringGuest.userPass}" class="form-control" required="true" requiredMessage="Please input Password"/>
+                                    <h:message for="txtPassword" class="message"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-4 col-md-4 col-sm-4 control-label" style="font-weight: bold; color: #026660">Confirm Password <span style="color: orange; font-weight: bold; font-size: 15px">*</span></label>
+                                <div class="col-lg-7">
+                                    <h:inputSecret id="txtConfirm" value="#{usersMB.input_confirm}" class="form-control" required="true" requiredMessage="Please input Confirm Password"/>
+                                    <h:message for="txtConfirm" class="message"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-4 col-md-4 col-sm-4 control-label" style="font-weight: bold; color: #026660">Full Name <span style="color: orange; font-weight: bold; font-size: 15px">*</span></label>
+                                <div class="col-lg-7 col-md-7 col-sm-7">
+                                    <h:inputText id="txtFullName" value="#{usersMB.registeringGuest.fullName}" class="form-control" required="true" requiredMessage="Please input your Fullname"/>
+                                    <h:message for="txtFullName" class="message"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-4 col-md-4 col-sm-4 control-label" style="font-weight: bold; color: #026660">Email <span style="color: orange; font-weight: bold; font-size: 15px">*</span></label>
+                                <div class="col-lg-7 col-md-7 col-sm-7">
+                                    <h:inputText id="txtEmail" value="#{usersMB.registeringGuest.email}" class="form-control" required="true" requiredMessage="Please input your Email"/>
+                                    <h:message for="txtEmail" class="message"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-4 col-md-4 col-sm-4 control-label" style="font-weight: bold; color: #026660">Phone <span style="color: orange; font-weight: bold; font-size: 15px">*</span></label>
+                                <div class="col-lg-7 col-md-7 col-sm-7">
+                                    <h:inputText id="txtPhone" value="#{usersMB.registeringGuest.phone}" class="form-control" required="true" requiredMessage="Please input your Phone number"/>
+                                    <h:message for="txtPhone" class="message"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-4 col-md-4 col-sm-4 control-label" style="font-weight: bold; color: #026660">Where are you?</label>
+                                <div class="col-lg-7 col-md-7 col-sm-7">
+                                    <h:selectOneRadio styleClass="selectRadio" value="#{usersMB.rdDistrict}" id="province" binding="#{radCity}">
+                                        <f:attribute name="name" value="province"/>
+                                        <f:selectItem itemValue="hochiminh" itemLabel="HoChiMinh City" />
+                                        <f:selectItem itemValue="other" itemLabel="Other"/>
+                                    </h:selectOneRadio>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-11 col-lg-offset-2" style="border: solid #fff 0.5px; padding-top: 10px; margin-left: 30px; margin-right: 30px">
+                                <div class="form-group" id="districtOpt">
+                                    <label class="col-lg-4 col-md-4 col-sm-4 control-label"  style="font-size: small; color: #026660" for="cbDistrict">District <span style="color: orange; font-weight: bold; font-size: 15px">*</span></label>
+                                    <div class="col-lg-7 col-md-7 col-sm-7">
+                                        <h:selectOneMenu  
+                                                         required="#{radCity.value == 'hochiminh'}" requiredMessage="Please select district."
+                                                         id="cbDistrict" value="#{usersMB.districtId}" styleClass="form-control">
+                                            <f:selectItem itemValue="" itemLabel="-- Please select district --"/>
+                                            <f:selectItems value="#{usersMB.districtList()}" var="row" itemValue="#{row.id}" itemLabel="#{row.district}" />
+                                        </h:selectOneMenu>
+                                        <h:message for="cbDistrict" class="message"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-4 col-md-4 col-sm-4 control-label" style="font-size: small; color: #026660">Address <span style="color: orange; font-weight: bold; font-size: 15px">*</span></label>
+                                    <div class="col-lg-7 col-md-7 col-sm-7">
+                                        <h:inputTextarea id="txtAddress" value="#{usersMB.registeringGuest.address}" class="form-control" rows="3" required="true" requiredMessage="Address can not be blank"/>
+                                        <h:message for="txtAddress" class="message"/>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group" align="center">
+                                <hr style="border-bottom: 1px solid #fff "/>
+                                <h:commandButton type="submit" action="#{usersMB.addUser()}" id="btnRegister" value="REGISTER" class="btn btn-primary"/>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-5 col-sm-5 animated fadeInDown pull-right" align="center">
+                    <div class="row" style="padding: 30px; background-color: #ccc; border-radius: 7px; box-shadow: 10px 10px 5px #888888">
+                        <h2 class="h2" style="font-size: x-large; font-weight: bold; color: #026660">Create an account and bring on the rewards!</h2>
+                        <p style="margin-top: 30px; margin-bottom: 50px">Register to earn score discount food and drinks, pay an order with your phone, and more.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function(){
+                $("input[type=radio][name=province]").on("change", function(){                    
+                    if(this.value == "hochiminh"){
+                        $("#cbDistrict").prop("disabled", false);
+                        $("#cbDistrict").prop("required", true);
+                        //$("#districtOpt").removeClass("hidden");
+                    }
+                    else{
+                        $("#cbDistrict").prop("disabled", true);
+                        $("#cbDistrict").prop("required", false);
+                        $("#cbDistrict").val("");
+                        //$("#districtOpt").addClass("hidden");
+                    }
+                });
+            });
+        </script>
+    </ui:define>
+
+</ui:composition>

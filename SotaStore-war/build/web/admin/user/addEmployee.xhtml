@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                template="./../layout/adminLayout.xhtml"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="title">
+        <title>Add employee</title>
+    </ui:define>
+
+
+
+    <ui:define name="content" id="">
+        
+        <h3>Add new employee</h3>
+        <div class="tab-content">
+            <div class="tab-pane active" id="horizontal-form">
+                
+                <h:form class="form-horizontal" id="f1">
+                    <div class="form-group">
+                        <h:outputLabel class="col-sm-2 control-label">Username&nbsp;<span style="color: red">*</span></h:outputLabel>
+                        <div class="col-sm-7">
+                            <h:inputText class="form-control1" pt:placeholder="" value="#{adminMB.uname}" id="username"/>
+                        </div>
+                        <div class="col-sm-2">
+                            <h:message for="username" style="color: red"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel class="col-sm-2 control-label">Password&nbsp;<span style="color: red">*</span></h:outputLabel>
+                        <div class="col-sm-7">
+                            <h:inputSecret class="form-control1" pt:placeholder="" value="#{adminMB.upass}" id="password"/>
+                        </div>
+                        <div class="col-sm-2">
+                            <h:message for="password" style="color: red"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel class="col-sm-2 control-label">Confirm password&nbsp;<span style="color: red">*</span></h:outputLabel>
+                        <div class="col-sm-7">
+                            <h:inputSecret class="form-control1" pt:placeholder="" value="#{adminMB.confirmPassword}" id="confirmPassword"/>
+                        </div>
+                        <div class="col-sm-2">
+                            <h:message for="confirmPassword" style="color: red"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel class="col-sm-2 control-label">Full name&nbsp;<span style="color: red">*</span></h:outputLabel>
+                        <div class="col-sm-7">
+                            <h:inputText class="form-control1" pt:placeholder="" value="#{adminMB.ufullname}" id="fullname"/>
+                        </div>
+                        <div class="col-sm-2">
+                            <h:message for="fullname" style="color: red"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel class="col-sm-2 control-label">Phone&nbsp;<span style="color: red">*</span></h:outputLabel>
+                        <div class="col-sm-7">
+                            <h:inputText class="form-control1" pt:placeholder="" value="#{adminMB.uphone}" id="phone"/>
+                        </div>
+                        <div class="col-sm-2">
+                            <h:message for="phone" style="color: red"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="Address" class="col-sm-2 control-label"/>
+                        <div class="col-sm-7">
+                            <h:inputTextarea class="form-control1" pt:placeholder="" style="height: 120px" value="#{adminMB.uaddress}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel class="col-sm-2 control-label">Admin Group&nbsp;<span style="color: red">*</span></h:outputLabel>
+                        <div class="col-sm-7">
+                            <h:selectOneMenu value="#{adminMB.adGroupId}">
+                                <f:selectItems value="#{adminMB.showAdminGroup()}" var="adGr" itemLabel="#{adGr.name}" itemValue="#{adGr.id}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-sm-7 col-sm-offset-2">
+                                <h:commandButton class="btn-success btn" value="Submit" action="#{adminMB.addEmployee()}"/>
+                                <h:commandButton type="reset" class="btn-inverse btn" value="Reset"/>
+                            </div>
+                        </div>
+                    </div>
+
+                </h:form>
+                <div class="panel-footer">
+                    <h:outputLink value="#{request.contextPath}/admin/user/viewEmployees.xhtml">Back to employees list</h:outputLink>
+                </div>
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

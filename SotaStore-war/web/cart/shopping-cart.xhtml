@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    template="./../layout/mainLayout.xhtml">
+    <ui:define name="title">
+        <title>Cart</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <style>        
+        .head-cart{
+            margin-top: 20px;
+        }
+        .head-cart hr{
+            border-top-color: #BD7F1C;            
+        }
+        .head-cart h1{
+            font-size: xx-large;
+            font-weight: bold;
+            color: #BD7F1C;
+        }
+        
+        .tb-cart th {
+            text-align: center;
+            font-weight: bold;
+        }
+        .tb-cart td{
+            vertical-align: middle !important;
+            text-align: center;
+            color: gray;
+        }
+        .cart-middle {
+            margin-bottom: 20px;
+        }
+        
+        .tb-cart-total{
+            margin-bottom: 20px;
+        }
+        .msg-alert{
+            font-style: italic;
+            font-size: 13px;
+            color: #BD7F1C;
+        }
+    </style>
+        <!--start-content-->
+        <div class="content">
+    <!--start-container-->     
+    <div class="container">
+        <div class="head-cart animated fadeInRight">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1><i class="fa fa-shopping-cart"></i> My Cart</h1>
+                </div>
+            <div class="col-md-6">
+                <div class="pull-right"> 
+                <h:form styleClass="form-inline">
+                    <h:outputLink style="margin-right: 5px;" styleClass="btn btn-primary" value="#{request.contextPath}/index.xhtml" ><i class="fa fa-cart-plus"> </i> Continue Sota...</h:outputLink>
+                <h:commandLink rendered="#{cartMB.cart.size() > 0}" styleClass="btn btn-danger" action="#{cartMB.clearCart()}" ><i class="fa fa-remove"> </i> Clear Cart</h:commandLink>
+                </h:form>
+                </div>
+            </div>
+            </div>
+            <div class="row">
+                <hr/>
+            </div>     
+            
+        </div> 
+        
+      <!-- Cart-->
+      <div class="row" style="margin-bottom: 20px;">
+          <div class="table-responsive col-md-12 tb-cart" style="padding: 10px;background-color: #fafafa; border-radius: 7px; box-shadow: 7px 7px 5px #888888;">              
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Product Name</th>                    
+                    <th>Quantity</th>                    
+                    <th>Unit Price</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                  </tr>  
+            </thead>
+            <tbody>
+                <h:form>
+                <ui:repeat value="#{cartMB.cart}" var="row">
+                    <tr>
+                        <td>
+                            <h:commandLink action="#{productMB.gotoProductDetail(row.p.id)}">
+                                <h:graphicImage height="50" width="50" title="product" alt="product" value = "#{resource[row.p.imageLink]}"/>
+                            </h:commandLink>
+                        </td>
+                        <td>
+                            <h:commandLink action="#{productMB.gotoProductDetail(row.p.id)}">
+                                <h:outputText value="#{row.p.name}" escape="false" />
+                            </h:commandLink>
+                        </td>
+                        <td>   
+                            <h:inputText id="qtyInput" 
+                                     styleClass="form-control" style="width: 80px !important;" 
+                                     value="#{row.quantity}"
+                                     required="true" requiredMessage="Quantity cannot be blank."
+                                     converterMessage="Quantity must be integer number."
+                                     validatorMessage="Quantity must in range of 1 - 20.">
+                                <f:validateLongRange minimum="1" maximum="20"/>
+                                <f:converter converterId="converter.TrimConverter" />
+                            </h:inputText>
+
+                            <h:message for="qtyInput" styleClass="msg-alert"/>
+                        </td>
+                        <td>
+                            <h:outputText value="#{row.p.price}">
+                                <f:convertNumber type="currency"
+                                                 currencyCode="VND"
+                                                 locale="vi-VN"/>
+                            </h:outputText>
+                        </td>
+                        <td>
+                            <h:outputText value="#{row.p.price * row.quantity}">
+                                <f:convertNumber type="currency"
+                                                 currencyCode="VND"
+                                                 locale="vi-VN"/>
+                            </h:outputText>
+                        </td>
+                        <td>
+                            <h:commandLink styleClass="btn btn-default btn-sm" action="#{cartMB.update()}" ><i class="fa fa-refresh"> </i> Update</h:commandLink>
+                            &nbsp;
+                         <h:commandLink styleClass="btn btn-warning btn-sm" action="#{cartMB.remove(row)}" ><i class="fa fa-trash"> </i> Remove</h:commandLink> 
+                        </td>
+                    </tr>  
+                </ui:repeat>
+                </h:form>        
+                <!-- /sample list -->
+            </tbody>          
+        </table>        
+      </div>
+      </div>
+      
+      
+      
+      
+      <div class="row">
+          <!-- total table -->
+      <div class="col-md-3 pull-right tb-cart-total">
+          <div class="table-responsive" style="margin-bottom: 20px; padding: 10px;background-color: #fafafa; border-radius: 7px; box-shadow: 7px 7px 5px #888888;">
+            <h3 style="font-size: large; font-weight: bold; text-align: center; margin-bottom: 10px; color:#4c7576;">Order Summary</h3>
+          <table class="table table-condensed ">
+            <tr>
+                <td>Total Quantity :</td>
+                <td style="text-align: right;"><span class="badge">#{cartMB.countItems()}</span></td>
+            </tr>
+            <tr>
+              <td>Pre-tax Total :</td>
+              <td style="text-align: right;"><span class="badge">
+                      <h:outputText value="#{cartMB.total}">
+                        <f:convertNumber type="currency"
+                                         currencyCode="VND"
+                                         locale="vi-VN"/>
+                    </h:outputText>
+                  </span></td>
+            </tr>                  
+            <tr>
+              <td>VAT (10%) :</td>
+                <td style="text-align: right;"><span class="badge">
+                  <h:outputText value="#{cartMB.total*0.1}">
+                    <f:convertNumber type="currency"
+                                     currencyCode="VND"
+                                     locale="vi-VN"/>
+                  </h:outputText>
+                </span></td>
+            </tr>
+              <tr>
+                  <td style="font-weight: bold;">Invoice Total :</td>
+                    <td style="text-align: right;"><span class="badge" style="background-color: #4c7576;">
+                        <h:outputText value="#{cartMB.total*1.1}">
+                            <f:convertNumber type="currency"
+                                             currencyCode="VND"
+                                             locale="vi-VN"/>
+                        </h:outputText>
+                    </span></td>
+            </tr>
+             
+          </table>
+            <h:form>
+                <h:commandLink rendered="#{cartMB.cart.size() > 0}" class="btn btn-default" style="background-color: #4c7576; color: #FFF; font-weight: bold;" action="#{cartMB.gotoCheckout()}" ><i class="fa fa-check-square-o"> </i> Checkout</h:commandLink>
+            </h:form>             
+         </div>            
+                        
+          
+        </div>
+        <!-- /total table -->
+      </div>
+     
+        </div>    
+        <!--End-container-->    
+        </div>
+        <!--End-content-->
+    </ui:define>
+</ui:composition>

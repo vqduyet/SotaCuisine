@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <!--webfonts-->
+        <h:outputStylesheet name="font_roboto.css" library="admin/css"/>
+        <!-- Bootstrap Core CSS -->
+        <h:outputStylesheet name="bootstrap.min.css" library="admin/css"/>
+        <!-- Graph CSS -->
+        <h:outputStylesheet name="lines.css" library="admin/css"/>
+        <!-- font-awesome -->
+        <h:outputStylesheet name="font-awesome.css" library="admin/css"/>
+        <!-- Custom CSS -->
+        <h:outputStylesheet name="style.css" library="admin/css"/>
+        <!-- Nav CSS -->
+        <h:outputStylesheet name="custom.css" library="admin/css"/>
+        <!-- Datatable CSS -->
+        <h:outputStylesheet name="dataTables.bootstrap.css" library="admin/datatable/css"/>
+        <h:outputStylesheet name="buttons.bootstrap.css" library="admin/datatable/css"/>
+        <h:outputStylesheet name="fixedHeader.bootstrap.css" library="admin/datatable/css"/>
+        <h:outputStylesheet name="responsive.bootstrap.css" library="admin/datatable/css"/>
+        <h:outputStylesheet name="scroller.bootstrap.css" library="admin/datatable/css"/>
+        <!-- animated -->
+        <h:outputStylesheet name="animate.css" library="css"/>
+        
+        <!-- jQuery -->
+        <h:outputScript name="jquery.min.js" library="admin/js"></h:outputScript>        
+        <!-- Metis Menu Plugin JavaScript -->
+        <h:outputScript name="metisMenu.min.js" library="admin/js"></h:outputScript>
+        <h:outputScript name="custom.js" library="admin/js"></h:outputScript>
+        <!-- Graph JavaScript -->
+        <h:outputScript name="d3.v3.js" library="admin/js"></h:outputScript>
+        <h:outputScript name="rickshaw.js" library="admin/js"></h:outputScript>
+        <h:outputScript name="Chart.js" library="admin/js"></h:outputScript>
+        <h:outputScript name="bootstrap.min.js" library="admin/js"></h:outputScript>
+        <h:outputScript>var imgEditor = "${resource['admin/js/nicEditorIcons.gif']}";</h:outputScript>
+        <!-- Datatable JS -->
+        <h:outputScript name="jquery.dataTables.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="dataTables.bootstrap.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="dataTables.buttons.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="buttons.bootstrap.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="buttons.flash.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="buttons.html5.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="buttons.print.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="dataTables.fixedHeader.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="dataTables.responsive.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="responsive.bootstrap.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="dataTables.scroller.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="jszip.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="pdfmake.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="vfs_fonts.js" library="admin/datatable/js"></h:outputScript>
+        
+        
+        <ui:insert name="title">Title</ui:insert>
+    </h:head>
+
+    <h:body>
+    <div id="wrapper">
+        <ui:insert name="header">
+            <ui:include src="/admin/layout/header.xhtml" />
+        </ui:insert>
+        
+        <div id="page-wrapper">
+            <div class="graphs">
+                <ui:insert name="content">
+                    <ui:include src="/admin/layout/content.xhtml" />
+                </ui:insert>        
+            </div>
+        
+            <ui:insert name="footer">
+                <ui:include src="/admin/layout/footer.xhtml" />
+            </ui:insert>
+            
+        </div>
+    </div>
+    </h:body>
+
+</html>

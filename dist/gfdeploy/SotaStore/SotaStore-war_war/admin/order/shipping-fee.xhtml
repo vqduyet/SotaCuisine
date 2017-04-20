@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    template="./../layout/adminLayout.xhtml">
+
+    <ui:define name="title">
+        <title>Shipping Fee</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <style>
+            .tb-order .form-control{
+                border: 1px solid #ccc !important;
+            }
+            .dataTables_info, .dataTables_paginate{
+                font-size: 13px !important;
+            }
+            .page-title{
+                background-color: #ccc;
+                padding-top: 10px;
+                padding-bottom: 5px;
+                margin: 0px 10px 20px 5px;                
+                border-radius: 10px;
+                color: #026660;                
+            }
+            .tb-order th, .tb-order td {
+                text-align: center;
+            }
+            .dataTables_wrapper>.row {
+                overflow: auto !important;                
+            }
+            table.dataTable{
+                font-size: 14px;
+            }
+            table.dataTable td{
+                vertical-align: middle !important;
+            }
+            table.dataTable a{
+                font-size: 11px;
+                margin: 2px;
+            }
+            .dataTables_info {
+                width: 60%;
+                float: left;
+            }
+            .dataTables_paginate {
+                float: right;
+            }
+        </style>
+        <div class="clearfix"></div>
+        <div class="col-md-12 page-title animated fadeInRight">
+            <h3><i class="fa fa-truck"></i> SHIPPING FEE</h3>
+        </div>
+        <div class="clearfix"></div>
+        <div class="grid_3 grid_5">
+            <div class="tb-order col-md-12"> 
+                <h:dataTable value="#{orderMB.fetchAllShippingList()}" var="row" id="tbShipping" styleClass="table table-striped table-bordered" >
+                    <h:column>
+                        <!-- column header -->
+                        <f:facet name="header">ID</f:facet>
+                        <!-- row record -->
+                        #{row.id}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">District</f:facet>                        
+                        <h:outputText value="#{row.district}" escape="false"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Fee</f:facet>
+                        <h:outputText value="#{row.fee}">
+                            <f:convertNumber type="currency"
+                                             currencyCode="VND"
+                                             locale="vi-VN"/>
+                        </h:outputText>
+                    </h:column>
+                    
+                    <h:column>
+                        <f:facet name="header">Action</f:facet>
+                        <h:form>
+                            <h:commandLink styleClass="btn btn-default" action="#{orderMB.gotoEditFee(row.id)}"><i class="fa fa-edit"></i> Edit</h:commandLink>
+                        </h:form>
+                    </h:column>
+                    
+                </h:dataTable>           
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"> </div>
+        <script>
+            $(document).ready(function(){
+                /* datatable normal*/
+                $('#tbShipping').DataTable({
+                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+                });                
+                
+            });
+        </script>
+    </ui:define>
+
+</ui:composition>

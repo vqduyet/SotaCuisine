@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    template="./layout/adminLayout.xhtml">
+
+    <ui:define name="title">
+        <title>Admin index</title>
+    </ui:define>
+
+
+
+    <ui:define name="content">
+        <style>
+            .head-admin-home{
+                margin-bottom: 30px;
+            }
+            .alert-admin-home{
+                //background-color: #ddd;
+                padding: 20px;
+                padding-top: 25px;
+                margin-left: 10px;
+                margin-right: 10px;
+                border-radius: 7px;
+            }
+            .panel-heading{
+                height: 100px !important;
+            }
+            .panel-yellow .panel-heading i{
+                color: #BD7F1C;
+            }
+            .panel-yellow .huge{
+                color: #BD7F1C;
+            }
+            .panel-green .panel-heading i{
+                color: #00897B;
+            }
+            .panel-green .huge{
+                color: #00897B;
+            }
+            .panel-red .panel-heading i{
+                color: orange;
+            }
+            .panel-red .huge{
+                color:orange;
+            }
+            .huge{
+                font-size: 40px !important;
+            }
+            .panel-footer .pull-left{
+                font-weight: bold;
+            }
+            .panel-footer{
+                background-color: #ddd;
+            }
+        </style>
+        
+        
+        <div class="clearfix"> </div>
+        <!-- Heading Row -->
+        <div class="row head-admin-home">
+            <div class="col-md-8">
+                <img class="img-responsive img-rounded" src="#{resource['admin/images/sota-admin-home.png']}" alt=""/>
+            </div>
+            <!-- /.col-md-8 -->
+            <div class="col-md-4" style="text-align: center;">
+                <h1><i class="fa fa-user-secret" style="color: #BD7F1C"></i> WELCOME SOTA ADMIN</h1>
+                <p>Let's make Sota as a wonderful place. Followings are some info you may need to pay attention to!</p>
+            </div>
+            <!-- /.col-md-4 -->            
+        </div>
+        <div class="clearfix"> </div>
+        <!-- /.row -->
+        <!-- Content Row -->
+        <div class="row alert-admin-home">
+            <div class="col-md-4">
+                <div class="panel panel-yellow">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-shopping-cart fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">#{viewOrderMB.fetchWaitingOrderList().size()}</div>
+                                <div>Waiting Orders!</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="panel-footer">
+                        <span class="pull-left">Total Orders</span>
+                        <span class="pull-right"><i class="badge">#{viewOrderMB.fetchAllOrderList().size()}</i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                    
+                </div>
+            </div>
+            <!-- /.col-md-4 -->
+            <div class="col-md-4">
+                <div class="panel panel-green">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-user-plus fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">1</div>
+                                <div>New Members</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="panel-footer">
+                        <span class="pull-left">Total Members</span>
+                        <span class="pull-right"><i class="badge">#{adminUsersMB.showAll().size()}</i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                    
+                </div>
+            </div>
+            <!-- /.col-md-4 -->
+            <div class="col-md-4">
+                <div class="panel panel-red">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-support fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">#{contactMB.showWaiting().size()}</div>
+                                <div>Pending Tickets!</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="panel-footer">
+                        <span class="pull-left">Total Tickets</span>
+                        <span class="pull-right"><i class="badge">#{contactMB.showAllContacts().size()}</i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                    
+                </div>
+            </div>
+            <!-- /.col-md-4 -->
+        </div>
+        <!-- /.row -->
+        
+        <div class="clearfix"> </div>
+        
+    </ui:define>
+
+</ui:composition>

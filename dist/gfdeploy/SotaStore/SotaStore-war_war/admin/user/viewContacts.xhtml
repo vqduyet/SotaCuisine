@@ -1,0 +1,297 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                template="./../layout/adminLayout.xhtml"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="title">
+        <title>Contacts</title>
+    </ui:define>
+
+
+
+    <ui:define name="content">
+        <style>
+            .tb-order .form-control{
+                border: 1px solid #ccc !important;
+            }
+            .dataTables_wrapper>.row {
+                overflow: auto !important;                
+            }
+            .dataTables_info, .dataTables_paginate{
+                font-size: 13px !important;
+            }
+            .page-title{
+                background-color: #ccc;
+                padding-top: 10px;
+                padding-bottom: 5px;
+                margin: 0px 10px 20px 5px;                
+                border-radius: 10px;
+                color: #026660;                
+            }
+            .tb-order th {
+                text-align: center;
+            }
+            .Ellipsis
+            {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .truncate {
+                width: 200px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        </style>
+        <h3>CONTACTS</h3>
+        <div class="but_list">
+            <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
+                <ul id="myTab" class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#waiting" id="waiting-tab" role="tab" data-toggle="tab" aria-controls="waiting" aria-expanded="true">WAITING CONTACTS</a></li>
+                    <li role="presentation"><a href="#inprogress" role="tab" id="inprogress-tab" data-toggle="tab" aria-controls="inprogress">IN PROGRESS CONTACTS</a></li>
+                    <li role="presentation"><a href="#completed" role="tab" id="completed-tab" data-toggle="tab" aria-controls="completed">COMPLETED CONTACTS</a></li>
+                </ul>
+
+                <div id="myTabContent" class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade in active" id="waiting" aria-labelledby="waiting-tab">
+                        <div class="clearfix"></div>
+                        <div class="grid_3 grid_5">    
+                            <div class="tb-order col-md-12">                       
+
+
+                                <h:dataTable rendered="#{contactMB.showWaiting().size() > 0}" id="tbTest1" class="table table-striped table-bordered"   value="#{contactMB.showWaiting()}" var="contact" >
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Id"/>
+                                        </f:facet>
+                                        <h:outputText value="#{contact.id}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Date"/>
+                                        </f:facet>
+                                        <h:outputText value="#{contact.created}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Name"/>
+                                        </f:facet>
+                                        <h:outputText value="#{contact.name}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Email"/>
+                                        </f:facet>
+                                        <div class="truncate"><h:outputText value="#{contact.email}" /></div>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Address"/>
+                                        </f:facet>
+                                        <div class="truncate"><h:outputText value="#{contact.address}" /></div>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Phone"/>
+                                        </f:facet>
+                                        <h:outputText value="#{contact.phone}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Content"/>
+                                        </f:facet>
+                                        <div class="truncate"><h:outputText value="#{contact.content}" /></div>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Action"/>
+                                        </f:facet>
+                                        <div align="center">
+                                            <h:form>
+                                                <h:commandLink title="details" action="#{contactMB.displayDetailContact(contact.id)}"><i class="fa fa-id-card-o"></i></h:commandLink> &nbsp;
+
+                                            </h:form>
+                                        </div>
+                                    </h:column>
+                                </h:dataTable> 
+
+                                <script type="text/javascript">
+                                    //<![CDATA[
+                                    $(document).ready(function() {
+                                        /* datatable */
+                                        $('#tbTest1').DataTable();
+                                    });
+                                    //]]>
+                                </script>                            
+                            </div>     
+
+                            <div class="clearfix"> </div>
+
+                        </div>
+                    </div>
+
+
+                    <div role="tabpanel" class="tab-pane fade" id="inprogress" aria-labelledby="inprogress-tab">
+                        <div class="clearfix"></div>
+                        <div class="grid_3 grid_5">    
+                            <div class="tb-order col-md-12">                       
+
+
+                                <h:dataTable id="tbTest2" rendered="#{contactMB.showInProgress().size() > 0}" class="table table-striped table-bordered"   value="#{contactMB.showInProgress()}" var="contact" >
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Id"/>
+                                        </f:facet>
+                                        <h:outputText value="#{contact.id}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Date"/>
+                                        </f:facet>
+                                        <h:outputText value="#{contact.created}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Name"/>
+                                        </f:facet>
+                                        <h:outputText value="#{contact.name}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Email"/>
+                                        </f:facet>
+                                        <div class="truncate"><h:outputText value="#{contact.email}" /></div>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Address"/>
+                                        </f:facet>
+                                        <div class="truncate"><h:outputText value="#{contact.address}" /></div>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Phone"/>
+                                        </f:facet>
+                                        <h:outputText value="#{contact.phone}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Content"/>
+                                        </f:facet>
+                                        <div class="truncate"><h:outputText value="#{contact.content}" /></div>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Action"/>
+                                        </f:facet>
+                                        <div align="center">
+                                            <h:form>
+                                                 <h:commandLink title="details" action="#{contactMB.displayDetailContact(contact.id)}"><i class="fa fa-id-card-o"></i></h:commandLink> &nbsp;
+
+                                            </h:form>
+                                        </div>
+                                    </h:column>
+                                </h:dataTable> 
+
+                                <script type="text/javascript">
+                                    //<![CDATA[
+                                    $(document).ready(function() {
+                                        /* datatable */
+                                        $('#tbTest2').DataTable();
+                                    });
+                                    //]]>
+                                </script>
+                            </div>     
+                            <div class="clearfix"> </div>
+
+                        </div>
+                    </div>
+
+
+                    <div role="tabpanel" class="tab-pane fade" id="completed" aria-labelledby="completed-tab">
+                        <div class="clearfix"></div>
+                        <div class="grid_3 grid_5">    
+                            <div class="tb-order col-md-12">                       
+
+
+                                <h:dataTable rendered="#{contactMB.showCompleted().size() > 0}" id="tbTest3" class="table table-striped table-bordered"   value="#{contactMB.showCompleted()}" var="contact" >
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Id"/>
+                                        </f:facet>
+                                        <h:outputText value="#{contact.id}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Date"/>
+                                        </f:facet>
+                                        <h:outputText value="#{contact.created}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Name"/>
+                                        </f:facet>
+                                        <h:outputText value="#{contact.name}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Email"/>
+                                        </f:facet>
+                                        <div class="truncate"><h:outputText value="#{contact.email}" /></div>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Address"/>
+                                        </f:facet>
+                                        <div class="truncate"><h:outputText value="#{contact.address}" /></div>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Phone"/>
+                                        </f:facet>
+                                        <h:outputText value="#{contact.phone}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Content"/>
+                                        </f:facet>
+                                        <div class="truncate"><h:outputText value="#{contact.content}" /></div>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Action"/>
+                                        </f:facet>
+                                        <div align="center">
+                                            <h:form>
+                                                 <h:commandLink title="details" action="#{contactMB.displayDetailContact(contact.id)}"><i class="fa fa-id-card-o"></i></h:commandLink> &nbsp;
+
+                                            </h:form>
+                                        </div>
+                                    </h:column>
+                                </h:dataTable> 
+
+                                <script type="text/javascript">
+                                    //<![CDATA[
+                                    $(document).ready(function() {
+                                        /* datatable */
+                                        $('#tbTest3').DataTable();
+                                    });
+                                    //]]>
+                                </script>
+                            </div>     
+                            <div class="clearfix"> </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

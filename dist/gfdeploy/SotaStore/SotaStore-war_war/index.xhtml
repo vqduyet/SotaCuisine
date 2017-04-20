@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    template="./layout/mainLayout.xhtml">
+
+    <ui:define name="title">
+        <title>Index</title>
+    </ui:define>
+
+    <ui:define name="content">
+        
+        <!--start-image-slider-->
+        <div class="container-fluid">
+            <div class="slider">					     
+                <div class="camera_wrap camera_azure_skin" id="camera_wrap_1">                              
+                    <ui:repeat value="#{slideMB.fetchSortedSlideList()}" var="row">
+                      <div data-src="#{resource[row.imageLink]}">  </div>   
+                    </ui:repeat>                    
+                </div>
+                <div class="clear"> </div>					       
+            </div>	
+        </div>				
+        <!--End-image-slider-->
+        <!--start-content-->
+        <div class="content">
+            <div class="animated wobble">
+                <div class="top-grids">
+                    <div class="wrap">
+                        <div class="top-grid">
+                            <h:graphicImage name="icon2.png" library="images"/>
+                            <h3>Eat Good Food</h3>
+                            <p>Our chefs use fresh, wholesome ingredients to create our ready-to-heat meals and cooking kits. Never tuck into greasy take-out again!</p>
+                        </div>
+                        <div class="top-grid">
+                            <h:graphicImage name="icon1.png" library="images"/>
+                            <h3>Our Services</h3>
+                            <p>Our membership model lets us skip standard mark-ups, so we deliver chef-crafted meals at prices significantly lower than similar dishes at restaurants.  </p>
+                        </div>
+                        <div class="top-grid last-topgrid">
+                            <h:graphicImage name="icon3.png" library="images"/>
+                            <h3>To Your Door</h3>
+                            <p>Sota deliver all inside Hochiminh city directly to your door, just place orders and prepare for delicious, healthy and hot meals.</p>
+                        </div>
+                        <div class="clear"> </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mid-grid">
+                <div class="wrap">
+                    <h1>Welcome to our site!</h1>
+                    <h2>We cook, You enjoy!</h2>
+                    <p>" To ensure that each guest receives prompt, professional, friendly and courteous service. To maintain a clean, comfortable and well maintained premises for our guests and staff. To provide at a fair price – nutritional, well-prepared meals – using only quality ingredients. To ensure that all guests and staff are treated with the respect and dignity they deserve. To thank each guest for the opportunity to serve them. By maintaining these objectives we shall be assured of a fair profit that will allow us to contribute to the community we serve. "</p>
+                    <h:outputLink styleClass="button1" value="#{request.contextPath}/about.xhtml">Read More</h:outputLink>
+                </div>
+            </div>
+            <div class="bottom-grids">
+                <div class="wrap">
+                    <!-- most viewed list -->
+                    <div class="bottom-grid2">
+                        <h3>Most Viewed Dishes</h3>
+                        <span>Beautiful dishes attracts everyone.</span>
+                        <p>The Good-Looking and Good-for-You Dishes, take you from "eh" to "ooooh!"</p>
+                        <div>
+                            <ul>
+                                <c:forEach items="#{productMB.fetchMostViewList()}" var="row">
+                                    <li>
+                                        <h:form>
+                                            <h:commandLink action="#{productMB.gotoProductDetail(row.id)}">
+                                                <h:graphicImage value="#{resource[row.imageLink]}" title="#{row.name}"/>
+                                            </h:commandLink>
+                                        </h:form>
+                                    </li>
+                                </c:forEach>
+                                <div class="clear"> </div>
+                            </ul>                                
+                        </div>
+                    </div>
+                    <!-- today special list -->
+                    <div class="bottom-grid2">
+                        <h3>Today Special</h3>
+                        <span>Let's have a look at today special dishes.</span>
+                        <p>Sota offer special dishes for each day in week, so what we have for today.
+                            <h:outputLink value="#{request.contextPath}/product/happyHours.xhtml">Read More...</h:outputLink>
+                        </p>
+                        <div>
+                            <ul>
+                                <c:forEach items="#{productMB.fetchTodaySpecialLimit()}" var="row">
+                                    <li>
+                                        <h:form>
+                                            <h:commandLink action="#{productMB.gotoProductDetail(row.id)}">
+                                                <h:graphicImage value="#{resource[row.imageLink]}" title="#{row.name}"/>
+                                            </h:commandLink>
+                                        </h:form>
+                                    </li>
+                                </c:forEach>
+                                <div class="clear"> </div>
+                            </ul>										
+                        </div>                        
+                    </div>
+                    <!-- most bought list -->
+                    <div class="bottom-grid2">
+                        <h3>Top Favorite Dishes</h3>
+                        <span>Following dishes are the trending now.</span>
+                        <p>We've rounded up our most-popular main dishes, drinks and cakes - here's what you want to eat right now.</p>
+                        <div>
+                            <ul>
+                                <c:forEach items="#{productMB.fetchMostBoughtList()}" var="row">
+                                    <li>
+                                        <h:form>
+                                            <h:commandLink action="#{productMB.gotoProductDetail(row.id)}">
+                                                <h:graphicImage value="#{resource[row.imageLink]}" title="#{row.name}"/>
+                                            </h:commandLink>
+                                        </h:form>
+                                    </li>
+                                </c:forEach>
+                                <div class="clear"> </div>
+                            </ul>				
+                        </div>
+                    </div>
+                    <div class="clear"> </div>
+                </div>
+                <div class="clear"> </div>
+                <!--end-wrap-->
+            </div>
+        </div>
+        <!--End-content-->
+    </ui:define>
+
+</ui:composition>

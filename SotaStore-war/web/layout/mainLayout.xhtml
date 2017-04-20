@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+        <link rel="shortcut icon" type="image/x-icon" href="#{resource['images/favicon.ico']}"/>
+        
+        <h:outputStylesheet name="font_open_sans.css" library="css"/>        
+        <h:outputStylesheet name="bootstrap.css" library="css"/>     
+        <h:outputStylesheet name="font-awesome.css" library="css"/>
+        <h:outputStylesheet name="slider.css" library="css"/>
+        <h:outputStylesheet name="lightbox.css" library="css"/>
+        <h:outputStylesheet name="style.css" library="css"/>
+        <h:outputStylesheet name="animate.css" library="css"/>
+        <h:outputStylesheet name="flipclock.css" library="css"/>
+        <h:outputStylesheet name="bootstrap-rating.css" library="css"/> 
+        
+        <!-- datatable css -->
+        <h:outputStylesheet name="dataTables.bootstrap.css" library="admin/datatable/css"/>
+        
+        <!-- js -->
+        <h:outputScript name="jquery.js" library="js"></h:outputScript>        
+        <h:outputScript name="jquery.easing.1.3.js" library="js"></h:outputScript>
+        <h:outputScript name="camera.js" library="js"></h:outputScript>
+        <h:outputScript name="jquery.lightbox.js" library="js"></h:outputScript>
+        <h:outputScript name="bootstrap.js" library="js"></h:outputScript>
+        <h:outputScript name="bootstrap-rating.js" library="js"></h:outputScript>
+        <h:outputScript name="flipclock.js" library="js"/>
+        <h:outputScript name="custom.js" library="js"></h:outputScript>
+        
+        <!-- datatable js-->
+        <h:outputScript name="jquery.dataTables.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="dataTables.bootstrap.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="dataTables.buttons.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="buttons.bootstrap.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="buttons.flash.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="buttons.html5.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="buttons.print.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="dataTables.fixedHeader.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="dataTables.responsive.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="responsive.bootstrap.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="dataTables.scroller.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="jszip.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="pdfmake.js" library="admin/datatable/js"></h:outputScript>
+        <h:outputScript name="vfs_fonts.js" library="admin/datatable/js"></h:outputScript>
+        
+        <ui:insert name="title"></ui:insert>        
+    </h:head>
+
+    <h:body>
+        <!-- back to top -->
+        <a href="#" id="gotop" style="display: none;">
+            <h:graphicImage library="images" name="gotop.png"/>
+        </a>
+        <!-- /back to top -->
+        <ui:insert name="header" >
+            <ui:include src="/layout/header.xhtml" />
+        </ui:insert>
+        
+        <ui:insert name="content" >
+            <ui:include src="/layout/content.xhtml" />
+        </ui:insert>       
+        
+        <ui:insert name="footer" >
+            <ui:include src="/layout/footer.xhtml" />
+        </ui:insert>       
+        
+    </h:body>
+
+</html>

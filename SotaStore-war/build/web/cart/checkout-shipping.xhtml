@@ -1,0 +1,426 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+    template="./../layout/mainLayout.xhtml">
+
+    <ui:define name="title">
+        <title>Checkout-Shipping</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <style>
+            .main-content{
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+            label {
+                font-size: 13px;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+
+            .must-have{
+                color: orange;
+                font-size: 15px;
+            }
+            .cart-item {
+                margin-bottom: 10px;
+            }
+            .cart-item h3{
+                color: #4c7576;
+            }
+            .cart-item td{
+                font-size: 13px;
+            }
+            .tb-order-sum, .tb-member-info {
+                font-size: 14px;
+            }
+            .fullName{
+                font-weight: bold;
+                color: #4c7576;
+            }
+            .head-cart hr{
+                border-top-color: #BD7F1C;            
+            }
+            .head-cart h1{
+                font-size: xx-large;
+                font-weight: bold;
+                color: #BD7F1C;
+            }
+            .score-added{
+                font-style: italic;
+                font-size: 13px;
+                color: #BD7F1C;
+                margin-top: 15px;
+                margin-bottom: 15px;
+            }
+            .msg-alert{
+                font-style: italic;
+                font-size: 13px;
+                color: #BD7F1C;
+            }
+        </style>
+        <!--start-content-->
+        <div class="content">
+            <!--start-container-->     
+            <div class="container main-content">
+                <div class="head-cart animated fadeInRight">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1><i class="fa fa-snowflake-o"></i> CHECKOUT :<i style="font-style: italic"> Finalize your info</i></h1>
+                        </div>                        
+                    </div>
+                    <div class="row">
+                        <hr/>
+                    </div>
+
+                </div>
+                <!-- my cart -->
+                <div class="col-md-6 animated fadeInLeft">
+                    <div class="checkout-cart" style="padding: 20px; margin-bottom: 15px; background-color: #ccc;  border-radius: 7px;">
+                        <div class="row">                            
+                            <h1 style="font-size:  x-large;" class="col-md-6"><i class="fa fa-shopping-cart"></i> MY CART</h1>
+                            <h:outputLink value="#{request.contextPath}/index.xhtml" styleClass="btn btn-primary pull-right" style="margin-right: 20px; color: #fff;"><i class="fa fa-cart-plus"></i> Continue Sota</h:outputLink>            
+                        </div>                        
+                        <div class="row">
+                            <hr style="border-bottom: solid 1px orange;"/>
+                        </div>
+                        <!-- item -->
+                        <ui:repeat value="#{cartMB.cart}" var="row" >
+                            <div class="cart-item">
+                                <div class="col-md-3">
+                                    <h:graphicImage height="100px"  style="object-fit: cover; max-height: 100px;" value="#{resource[row.p.imageLink]}" class="img-responsive"/>
+                                </div>
+                                <div class="col-md-9" style="margin-bottom: 20px;">                                
+                                    <h3 style="margin-bottom: 5px; margin-top: 5px; font-weight: bold;">
+                                        <h:outputText escape="false" value="#{row.p.name}" />
+                                    </h3>
+                                    <table class="table">
+                                        <tr>
+                                            <td>Quantity: <span class="badge badge-primary">#{row.quantity}</span></td>
+                                            <td>Price: 
+                                                <span class="badge badge-primary">
+                                                    <h:outputText value="#{row.p.price}">
+                                                        <f:convertNumber type="currency"
+                                                                         currencyCode="VND"
+                                                                         locale="vi-VN"/>
+                                                    </h:outputText>
+                                                </span>
+                                            </td>
+                                            <td>Subtotal: 
+                                                <span class="badge badge-primary">
+                                                    <h:outputText value="#{row.p.price * row.quantity}">
+                                                        <f:convertNumber type="currency"
+                                                                         currencyCode="VND"
+                                                                         locale="vi-VN"/>
+                                                    </h:outputText>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </table>                                
+                                </div>
+                            </div>  
+                        </ui:repeat>                                                                      
+                        <!-- / item -->                        
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="checkout-total" style="padding: 20px; background-color: #ccc; margin-bottom: 15px; border-radius: 7px; box-shadow: 10px 10px 5px #888888;">                        
+                        <!-- score applied -->
+                        <div class="col-md-5">
+                            <h1 style="text-align: center; font-size: 30px; margin-bottom: 20px;"><span class="fa fa-trophy" style="color: #BD7F1C;"></span></h1>
+                            <!-- is member -->
+                            <h:form rendered="#{usersMB.loginUsers != null}">
+                                <div class="form-group">
+                                    <div style="margin-bottom: 10px;">
+                                        <p style="font-size: 13px; font-style: italic">Apply score for discount</p>
+                                        <p style="font-size: 11px; font-style: italic">* members only</p>
+                                    </div>
+                                    <h:message for="txtScoreApplied" styleClass="msg-alert"/>
+                                    <h:messages globalOnly="true" styleClass="msg-alert" />
+                                    <h:inputText id="txtScoreApplied"                                        
+                                                 value="#{cartMB.scoreApplied}" styleClass="form-control" a:placeholder="...enter score"
+                                                 required="true" requiredMessage="Applied score cannot be blank."
+                                                 converterMessage="Score must be integer number"
+                                                 validatorMessage="Score should be positive integer.">
+                                        <f:validateLongRange minimum="0"/>
+                                        <f:converter converterId="converter.TrimConverter" />
+                                    </h:inputText>
+                                </div>
+                                <h:commandLink action="#{cartMB.applyScore()}" class="btn btn-default" style="background-color: #4c7576; color: #FFF; font-weight: bold;">Apply</h:commandLink>
+                                <div class="score-added">
+                                    <p>Score added after order completed: <i class="badge">
+                                            <h:outputText value="#{cartMB.scoreAdded}">
+                                                <f:convertNumber type="number"/>
+                                        </h:outputText>                                        
+                                        </i></p>
+                                </div>
+                            </h:form>
+                            <div class="clearfix"></div>
+                            <!-- /is member -->
+                            <!-- not member -->
+                            <div>                                
+                                <span style="font-style: italic; font-size: 14px;"><h:outputText value="You can log in as member to apply score for discount!" rendered="#{usersMB.loginUsers == null}"/></span>
+                            </div>
+                            <div class="clearfix"></div>
+                            <!-- /not member -->
+                        </div>
+                        <!-- /score applied -->
+                        <!-- total table -->
+                        <div class="col-md-7">
+                            <div class="table-responsive">
+                                <h3 style="font-size: large; font-weight: bold; text-align: center; margin-bottom: 10px; color:#4c7576;">Order Summary</h3>
+                                <table class="table table-condensed tb-order-sum">
+                                    <tr>
+                                        <td>Total Quantity :</td>
+                                        <td style="text-align: right;"><span class="badge">#{cartMB.countItems()}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pre-tax Total :</td>
+                                        <td style="text-align: right;"><span class="badge">
+                                            <h:outputText value="#{cartMB.total}">
+                                                <f:convertNumber type="currency"
+                                                                 currencyCode="VND"
+                                                                 locale="vi-VN"/>
+                                            </h:outputText>
+                                            </span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Score applied :</td>
+                                        <td style="text-align: right;"><span class="badge">
+                                            #{cartMB.scoreApplied}
+                                            </span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Discount by Score :</td>
+                                        <td style="text-align: right;"><span class="badge">
+                                            <h:outputText value="#{cartMB.scoreApplied*10000 }">
+                                                <f:convertNumber type="currency"
+                                                                 currencyCode="VND"
+                                                                 locale="vi-VN"/>
+                                            </h:outputText>
+                                            </span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>VAT (10%) :</td>
+                                        <td style="text-align: right;"><span class="badge">
+                                                <h:outputText value="#{(cartMB.total - cartMB.scoreApplied * 10000)*0.1}">
+                                                <f:convertNumber type="currency"
+                                                                 currencyCode="VND"
+                                                                 locale="vi-VN"/>
+                                              </h:outputText>
+                                            </span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-weight: bold;">Invoice Total :</td>
+                                        <td style="text-align: right;"><span class="badge" style="background-color: #4c7576;">
+                                                <h:outputText value="#{cartMB.calculateTotal()}">
+                                                <f:convertNumber type="currency"
+                                                                 currencyCode="VND"
+                                                                 locale="vi-VN"/>
+                                            </h:outputText>
+                                            </span></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /total table -->
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <!-- /my cart -->
+                <!-- checkout -->
+                <div class="col-md-6 animated fadeInRight">
+                    <!-- checkout method -->
+                    <div class="chekout-method" style="padding: 20px; background-color: #ccc; margin-bottom: 15px; border-radius: 7px; box-shadow: 10px 10px 5px #888888;">                        
+                        <h1 style="font-size:  x-large;">1. Checkout Method</h1>
+                        <hr style="border-bottom: solid 1px orange;"/>
+                        <h:form rendered="#{usersMB.loginUsers == null}">
+                        <div class="row">
+                            <h2 class="col-md-6" style="font-weight: bold; padding-top: 10px; color: #4c7576;">CONTINUE AS GUEST...</h2>
+                            
+                            <h:commandLink action="#{usersMB.gotoLogin()}" class="btn btn-default pull-right" style="background-color: #4c7576; color: #FFF; font-weight: bold; margin-right: 15px;">SIGN IN / REGISTER</h:commandLink>
+                        </div>
+                        </h:form>
+                        <h:form rendered="#{usersMB.loginUsers != null}">
+                            <div style="padding-left: 20px; padding-right: 20px;">
+                                <h3 style="font-size: 18px; font-weight: bold; padding-bottom: 10px;">Thank you for checking out as Member!</h3>
+                                <p style="padding-bottom: 10px;">Hello <span class="fullName">#{usersMB.loginUsers.fullName}</span>, followings are your info:</p>
+                            <table class="table table-condensed tb-member-info">
+                                <tbody>
+                                    <tr>
+                                        <td>Address</td>
+                                        <td>#{usersMB.loginUsers.address}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>District</td>
+                                        <td><h:outputText rendered="#{usersMB.loginUsers.district != null}" value="#{usersMB.loginUsers.district.district}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Phone</td>
+                                        <td>#{usersMB.loginUsers.phone}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Score</td>
+                                        <td><i class="badge">#{usersMB.loginUsers.score}</i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </div>                            
+                        </h:form>
+                    </div> 
+                    <!-- /checkout method -->
+                    
+                    <div class="chekout-shipping" style="padding: 20px; background-color: #ccc; margin-bottom: 15px; border-radius: 7px; box-shadow: 10px 10px 5px #888888;">
+                        <h1 style="font-size:  x-large; margin-bottom: 5px;">2. Shipping Info</h1>
+                        <p style="font-size: 11px; font-style: italic">* Shipping only applied inside Hochiminh city</p>
+                        <hr style="border-bottom: solid 1px orange;"/>
+                        <div>
+                            <!-- checkout shipping: no customer -->
+                            <h:form rendered="#{usersMB.loginUsers == null}">                                
+                                <div id="shipping-option">
+                                    <div class="form-group">
+                                        <label for="buyer-name" class="control-label">Your name <span class="must-have">*</span></label>
+                                        <h:message for="buyer-name" styleClass="msg-alert"/>
+                                        <h:inputText id="buyer-name" a:placeholder="...name..."
+                                                     value="#{cartMB.shippingInfo.customerName}" 
+                                                     styleClass="form-control"
+                                                     required="true" requiredMessage="Name cannot be blank." 
+                                                     validatorMessage="Name cannot be over 50 characters.">
+                                            <f:validateLength maximum="50"/>
+                                            <f:converter converterId="converter.TrimConverter" />
+                                        </h:inputText>                                                                
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="district" class="control-label">District <span class="must-have">*</span></label>
+                                        <h:message for="district" styleClass="msg-alert"/>
+                                        <h:selectOneMenu id="district" 
+                                                         required="true" requiredMessage="District must be provided." 
+                                                         value = "#{cartMB.shippingInfo.districtId}" 
+                                                         styleClass="form-control">
+                                            <f:selectItem itemValue="" itemLabel="-- Please select district --"/>
+                                            <f:selectItems value="#{usersMB.districtList()}" var="row" itemValue = "#{row.id}" itemLabel = "#{row.district}" /> 
+                                         </h:selectOneMenu>                              
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="address" class="control-label">Address <span class="must-have">*</span></label>
+                                        <h:message for="address" styleClass="msg-alert"/>
+                                        <h:inputTextarea rows="3" required="true" requiredMessage="Address cannot be blank." 
+                                                         value="#{cartMB.shippingInfo.address}" 
+                                                         styleClass="form-control" id="address" a:placeholder="...address..."
+                                                         validatorMessage="Address cannot be over 200 characters.">
+                                            <f:validateLength maximum="200"/>
+                                            <f:converter converterId="converter.TrimConverter" />
+                                        </h:inputTextarea>                             
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone-number" class="control-label">Phone <span class="must-have">*</span></label>                                              
+                                        <h:message for="phone-number" styleClass="msg-alert"/>
+                                        <h:inputText id="phone-number"                                            
+                                                     value="#{cartMB.shippingInfo.phone}" 
+                                                     styleClass="form-control" a:placeholder="...phone number..."
+                                                     required="true" requiredMessage="Phone cannot be blank."
+                                                     validatorMessage="Phone number should contains only number in range of 9-12 digits.">
+                                            <f:validateRegex pattern="^\d{9,12}$"/>
+                                            <f:converter converterId="converter.TrimConverter" />
+                                        </h:inputText>
+                                                     
+                                    </div>
+                                </div>                                
+                                <h:commandButton value="Next" action="#{cartMB.checkShippingInfo()}" styleClass="btn btn-primary pull-right" style="width: 100px;"/>                                
+                                <div class="clearfix"></div>
+                            </h:form>
+                            <!-- /checkout shipping: no customer -->
+                            <!-- checkout shipping: customer -->
+                            <h:form rendered="#{usersMB.loginUsers != null}" prependId="false">
+                                <div class="form-group">                              
+                                    <div class="checkbox">
+                                        <h:outputLabel rendered="#{usersMB.loginUsers.district != null}">
+                                            <h:selectBooleanCheckbox rendered="#{usersMB.loginUsers.district != null}" binding="#{checkbox}" id="chkAddress" value="#{cartMB.shippingCheck}" /> <h:outputText value="Shipping info the same as registered info" rendered="#{usersMB.loginUsers.district != null}"/>
+                                        </h:outputLabel>
+                                    </div>                              
+                                </div>
+                                <div id="shipping-option">                                    
+                                    <div class="form-group">
+                                        <label for="district" class="control-label">District <span class="must-have">*</span></label>
+                                        <h:message for="district" styleClass="msg-alert"/>
+                                        <h:selectOneMenu id="district" disabled="#{checkbox.value}" 
+                                                        required="#{checkbox.value == 'false'}" requiredMessage="District must be provided." 
+                                                        value = "#{cartMB.shippingInfo.districtId}" 
+                                                        styleClass="form-control">
+                                            <f:selectItem itemValue="" itemLabel="-- Please select district --"/>
+                                            <f:selectItems value="#{usersMB.districtList()}" var="row" itemValue = "#{row.id}" itemLabel = "#{row.district}" /> 
+                                         </h:selectOneMenu>                     
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="address" class="control-label">Address <span class="must-have">*</span></label>
+                                        <h:message for="address" styleClass="msg-alert"/>
+                                        <h:inputTextarea rows="3" disabled="#{checkbox.value}"
+                                                         required="true" requiredMessage="Address cannot be blank." 
+                                                        value="#{cartMB.shippingInfo.address}" 
+                                                        styleClass="form-control" id="address" a:placeholder="...address..."
+                                                        validatorMessage="Address cannot be over 200 characters.">
+                                            <f:validateLength maximum="200"/>
+                                            <f:converter converterId="converter.TrimConverter" />
+                                        </h:inputTextarea>                               
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone-number" class="control-label">Phone <span class="must-have">*</span></label>                                              
+                                        <h:message for="phone-number" styleClass="msg-alert"/>
+                                        <h:inputText id="phone-number" disabled="#{checkbox.value}"   
+                                                    value="#{cartMB.shippingInfo.phone}" 
+                                                    styleClass="form-control" a:placeholder="...phone number..."
+                                                    required="true" requiredMessage="Phone cannot be blank."
+                                                    validatorMessage="Phone number should contains only number in range of 9-12 digits.">
+                                            <f:validateRegex pattern="^\d{9,12}$"/>
+                                            <f:converter converterId="converter.TrimConverter" />
+                                        </h:inputText>                            
+                                    </div>
+                                </div>                                
+                                <h:commandButton value="Next" action="#{cartMB.checkShippingInfo()}" styleClass="btn btn-primary pull-right" style="width: 100px;"/>
+                                
+                                <div class="clearfix"></div>
+                            </h:form>
+                            <!-- /checkout shipping: customer -->
+                        </div>                        
+                    </div>
+                </div>
+                <!-- /checkout -->  
+
+            </div>
+            <!-- /container-->
+        </div>
+        <!-- /content-->        
+        <script>
+            $(document).ready(function() {                
+                $('#chkAddress').on('change', function() {
+                    if (this.checked) {
+                        $("#buyer-name").val("");
+                        $("#buyer-name").prop("disabled", true);
+                        $("#district").val("-- Please select dsitrict --");
+                        $("#district").prop("disabled", true);
+                        $("#address").val("");
+                        $("#address").prop("disabled", true);
+                        $("#phone-number").val("");
+                        $("#phone-number").prop("disabled", true);
+                        //$("#shipping-option").addClass("hidden");
+                    }
+                    else {
+                        $("#buyer-name").prop("disabled", false);
+                        $("#district").prop("disabled", false);
+                        $("#address").prop("disabled", false);
+                        $("#phone-number").prop("disabled", false);
+                        //$("#shipping-option").removeClass("hidden");
+                    }
+
+                });                
+            });
+        </script>
+    </ui:define>
+
+
+</ui:composition>

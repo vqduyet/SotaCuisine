@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../layout/adminLayout.xhtml">
+
+    <ui:define name="title">
+        <title>Product-New</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <style>
+            .alert li{
+                list-style: none;
+            }
+            .page-title{
+                background-color: #ccc;
+                padding-top: 10px;
+                padding-bottom: 5px;
+                margin: 0px 10px 20px 5px;                
+                border-radius: 10px;
+                color: #026660;                
+            }
+            table.table-condensed td{
+                color: #000 !important;
+                font-size: 14px !important;
+            }
+            .dataTables_wrapper>.row {
+                overflow: auto !important;                
+            }
+            table.dataTable{
+                font-size: 14px;
+            }
+            table.dataTable a{
+                font-size: 11px;
+                margin: 2px;
+            }
+            .dataTables_info {
+                width: 60%;
+                float: left;
+            }
+            .dataTables_paginate {
+                float: right;
+            }
+            .tb-order .form-control{
+                border: 1px solid #ccc !important;
+            }
+            .dataTables_info, .dataTables_paginate{
+                font-size: 13px !important;
+            }
+            .req{
+                color:red;
+            }
+            .form-control{
+                background-color: #fff !important;
+                border-color: #ccc !important;
+                border-radius: 7px !important;
+            }
+            .tb-radio td{
+                padding-top: 7px;
+                padding-right: 15px;
+            }
+            .tb-radio td label{
+                padding-left: 3px;
+            }
+            .panel-footer .btn{
+                margin-right: 10px;
+            }
+        </style>
+        <h:outputScript name="nicEdit.js" library="admin/js"></h:outputScript>
+        <h:outputScript>
+            bkLib.onDomLoaded(function() {
+            new nicEditor().panelInstance('product-desc');
+            });
+        </h:outputScript>
+        <div class="clearfix"></div>
+        <div class="col-md-12 page-title animated fadeInRight">
+            <h3 class="col-md-6"><i class="fa fa-plus-circle"></i> ADD NEW PRODUCT</h3>
+            <div class="col-md-6">
+                <a href="#{request.contextPath}/admin/product/product-list.xhtml" class="btn btn-info pull-right">Back to Product List <i class="fa fa-backward"></i></a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div>
+            <h:message for="addproductform" styleClass="alert alert-info"  style = "color:red;margin:8px;"/>
+            <!-- order summary -->                
+            <div class="row">
+                <h3 style="font-size: 25px; font-weight: bold; text-align: center; margin-bottom: 10px; color:#4c7576;">Product Info</h3>
+            </div>
+            <div class="row">
+                <hr style="border-bottom: solid 1px #fff;"/>
+            </div>
+            <h:form id="addproductform" class="form-horizontal" prependId="false" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="product-name" class="col-sm-2 control-label">Product Name <span class="req">*</span></label>
+                    <div class="col-sm-8">
+                        <h:inputText styleClass="form-control" required="true" value="#{adminProductMB.productNew.name}" a:placeholder="...product name" id="product-name" requiredMessage="Product Name can't be blank. Please enter value">
+                            <f:converter converterId="converter.TrimConverter"/>
+                            <f:validateLength minimum="6" maximum="100" />
+                        </h:inputText>
+                        <h:messages styleClass="alert alert-warning" for="product-name" style = "color:red;margin:8px;" />
+                    </div>                    
+                </div>
+                <div class="form-group">
+                    <label for="product-img" class="col-sm-2 control-label">Image <span class="req">*</span></label>
+                    <div class="col-sm-8">
+                        <h:inputFile id="imageFile" value="#{adminProductMB.imageFile}" styleClass="form-control" required="true" requiredMessage="Image must be choice. Please select Food Image" validator="#{adminProductMB.validateFile}">
+                        </h:inputFile> 
+                        <h:messages styleClass="alert alert-warning" for="imageFile" style = "color:red;margin:8px;" />
+                    </div>                    
+                </div>
+                <div class="form-group">
+                    <label for="product-detail-img" class="col-sm-2 control-label">Detail Image <span class="req">*</span></label>
+                    <div class="col-sm-8">
+                        <h:inputFile id="imageDetailFile" styleClass="form-control" value="#{adminProductMB.imageDetailFile}" required="true" requiredMessage="Image must be choice. Please select Food Image" validator="#{adminProductMB.validateFile}">
+                        </h:inputFile>     
+                        <h:messages styleClass="alert alert-warning" for="imageDetailFile" style = "color:red;margin:8px;" />
+                    </div>                    
+                </div>
+
+                <div class="form-group">
+                    <label for="subcatalog" class="col-sm-2 control-label">Catalog <span class="req">*</span></label>
+                    <div class="col-sm-8">
+                        <h:selectOneMenu styleClass="form-control" id="subcatalog" required="true" value = "#{adminProductMB.catalogId}">                            
+                            <f:selectItems value="#{catalogMB.fetchSubCatalogList()}" var="row" itemValue = "#{row.id}" itemLabel = "#{row.name}" /> 
+                        </h:selectOneMenu>                        
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="product-price" class="col-sm-2 control-label">Price <span class="req">*</span></label>
+                    <div class="col-sm-8">
+                        <h:inputText styleClass="form-control" value="#{adminProductMB.productNew.price}" a:placeholder="...price" id="product-price" required="true" requiredMessage="Price can't be blank"
+                                     converterMessage="Characters are not allowed in that field. Please input number only."
+                                     validatorMessage="The price must between 10.000 đ and 999.999 đ">      
+                            <f:validateDoubleRange minimum="10000.00" maximum="1000000.00" />
+                        </h:inputText>
+                        <h:messages styleClass="alert alert-warning" for="product-price" style = "color:red;margin:8px;" />
+                    </div>                    
+                </div>
+                <div class="form-group">
+                    <label for="product-status" class="col-sm-2 control-label">Status </label>
+                    <div class="col-sm-8">
+                        <h:selectOneRadio styleClass="tb-radio" value = "#{adminProductMB.defaultStatus}">
+                            <f:selectItem itemValue = "Normal" itemLabel = "Normal"/>
+                            <f:selectItem itemValue = "Inactive" itemLabel = "Inactive" />
+                        </h:selectOneRadio>                        
+                    </div>                    
+                </div>
+                <div class="form-group">
+                    <label for="product-short-desc" class="col-sm-2 control-label">Short Description <span class="req">*</span></label>
+                    <div class="col-sm-8">
+                        <h:inputTextarea rows="4" styleClass="form-control" value="#{adminProductMB.productNew.shortDescriptions}" id="product-short-desc" required="true" requiredMessage="Please input somethings for short description" > 
+                            <f:converter converterId="converter.TrimConverter"/>
+                            <f:validateLength minimum="10" maximum="150" />
+                        </h:inputTextarea>  
+                        <h:messages for="product-short-desc" style = "color:red;margin:8px;" />
+                    </div>                    
+                </div>
+                <div class="form-group">
+                    <label for="product-desc" class="col-sm-2 control-label">Description <span class="req">*</span></label>
+                    <div class="col-sm-8">
+                        <h:inputTextarea rows="4" styleClass="form-control" value="#{adminProductMB.productNew.decription}" id="product-desc" required="true" requiredMessage="Please input somethings for long description" >
+                            <f:converter converterId="converter.TrimConverter"/>
+                            <f:validateLength minimum="20" />                        
+                        </h:inputTextarea> 
+                        <h:messages for="product-desc" style = "color:red;margin:8px;" />
+                    </div>                    
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <h:commandButton value="Submit" action="#{adminProductMB.createProduct()}" styleClass="btn btn-success"/>
+                            <h:commandButton value="Reset" type="reset" styleClass="btn btn-inverse" />
+                        </div>
+                    </div>
+                </div>  
+                <div>
+
+                </div>
+            </h:form>          
+            <!-- /order summary -->
+            <div class="clearfix"> </div>
+        </div>
+
+        <div class="clearfix"> </div>
+
+
+    </ui:define>
+
+</ui:composition>

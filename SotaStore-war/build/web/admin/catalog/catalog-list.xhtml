@@ -1,0 +1,217 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    template="./../layout/adminLayout.xhtml">
+
+    <ui:define name="title">
+        <title>Catalog List</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <style>
+            .tb-order .form-control{
+                border: 1px solid #ccc !important;
+            }
+            .dataTables_info, .dataTables_paginate{
+                font-size: 13px !important;
+            }
+            .page-title{
+                background-color: #ccc;
+                padding-top: 10px;
+                padding-bottom: 5px;
+                margin: 0px 10px 20px 5px;                
+                border-radius: 10px;
+                color: #026660;                
+            }
+            .tb-order th, .tb-order td {
+                text-align: center;
+            }
+            .dataTables_wrapper>.row {
+                overflow: auto !important;                
+            }
+            table.dataTable{
+                font-size: 14px;
+            }
+            table.dataTable td{
+                vertical-align: middle !important;
+            }
+            table.dataTable a{
+                font-size: 11px;
+                margin: 2px;
+            }
+            .dataTables_info {
+                width: 60%;
+                float: left;
+            }
+            .dataTables_paginate {
+                float: right;
+            }
+        </style>
+        <div class="clearfix"></div>
+        <div class="col-md-12 page-title animated fadeInRight">
+            <h3><i class="fa fa-folder-open"></i> CATALOG LIST</h3>
+        </div>
+        <div class="clearfix"></div>
+        <div class="grid_3 grid_5">
+            <div class="but_list">
+	       <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
+                    <ul id="myTab" class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#normal-catalog" id="normal-catalog-tab" role="tab" data-toggle="tab" aria-controls="normal-catalog" aria-expanded="true">Normal <i class="badge badge-warning">#{catalogMB.fetchActiveCatalogList().size()}</i></a></li>
+                        <li role="presentation"><a href="#inactive-catalog" role="tab" id="inactive-catalog-tab" data-toggle="tab" aria-controls="inactive-catalog">Inactive <i class="badge">#{catalogMB.fetchInactiveCatalogList().size()}</i></a></li>                        
+                        <li role="presentation"><a href="#all-catalog" role="tab" id="all-catalog-tab" data-toggle="tab" aria-controls="all-catalog">All <i class="badge">#{catalogMB.fetchAllCatalogList().size()}</i></a></li> 
+                    </ul>
+            <!-- toggle tabs -->
+		<div id="myTabContent" class="tab-content">
+                    <!-- normal-catalog list -->
+		  <div role="tabpanel" class="tab-pane fade in active" id="normal-catalog" aria-labelledby="normal-catalog-tab">
+            <div class="tb-order col-md-12"> 
+                <h:dataTable rendered="#{catalogMB.fetchActiveCatalogList().size()>0}" value="#{catalogMB.fetchActiveCatalogList()}" var="row" id="tbNormalCatalog" styleClass="table table-striped table-bordered" >
+                    <h:column>
+                        <!-- column header -->
+                        <f:facet name="header">Catalog ID</f:facet>
+                        <!-- row record -->
+                        #{row.id}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Catalog Name</f:facet>                        
+                        <h:outputText value="#{row.name}" escape="false"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Parent Catalog ID</f:facet>
+                        #{row.parentId}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Sort Order</f:facet>
+                        #{row.sortOrder}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Status</f:facet>
+                        #{row.status}
+                    </h:column>
+                    
+                    <h:column>
+                        <f:facet name="header">Action</f:facet>
+                        <h:form>
+                            <h:commandLink styleClass="btn btn-default" action="#{catalogMB.gotoEdit(row.id)}"><i class="fa fa-edit"></i> Edit</h:commandLink>
+                        </h:form>
+                    </h:column>
+                    
+                </h:dataTable>           
+            </div>
+            <div class="clearfix"></div>
+            </div>
+                <!-- /normal-catalog list-->
+            <!-- inactive-catalog list -->
+		  <div role="tabpanel" class="tab-pane fade" id="inactive-catalog" aria-labelledby="inactive-catalog-tab">
+            <div class="tb-order col-md-12">                        
+                <h:dataTable rendered="#{catalogMB.fetchInactiveCatalogList().size()>0}" value="#{catalogMB.fetchInactiveCatalogList()}" var="row" id="tbInactiveCatalog" styleClass="table table-striped table-bordered" >
+                    <h:column>
+                        <!-- column header -->
+                        <f:facet name="header">Catalog ID</f:facet>
+                        <!-- row record -->
+                        #{row.id}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Catalog Name</f:facet>                        
+                        <h:outputText value="#{row.name}" escape="false"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Parent Catalog ID</f:facet>
+                        #{row.parentId}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Sort Order</f:facet>
+                        #{row.sortOrder}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Status</f:facet>
+                        #{row.status}
+                    </h:column>
+                    
+                    <h:column>
+                        <f:facet name="header">Action</f:facet>
+                        <h:form>
+                            <h:commandLink styleClass="btn btn-default" action="#{catalogMB.gotoEdit(row.id)}"><i class="fa fa-edit"></i> Edit</h:commandLink>
+                        </h:form>
+                    </h:column>
+                    
+                </h:dataTable>          
+            </div>
+            <div class="clearfix"></div> 
+            </div>
+                <!-- /inactive-catalog list-->
+                <!-- all-catalog list -->
+		  <div role="tabpanel" class="tab-pane fade" id="all-catalog" aria-labelledby="all-catalog-tab">
+                    <div class="tb-order col-md-12">                
+                        <h:dataTable rendered="#{catalogMB.fetchAllCatalogList().size()>0}" value="#{catalogMB.fetchAllCatalogList()}" var="row" id="tbAllCatalog" styleClass="table table-striped table-bordered" >
+                            <h:column>
+                                <!-- column header -->
+                                <f:facet name="header">Catalog ID</f:facet>
+                                <!-- row record -->
+                                #{row.id}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Catalog Name</f:facet>                        
+                                <h:outputText value="#{row.name}" escape="false"/>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Parent Catalog ID</f:facet>
+                                #{row.parentId}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Sort Order</f:facet>
+                                #{row.sortOrder}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Status</f:facet>
+                                #{row.status}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Action</f:facet>
+                                <h:form>
+                                    <h:commandLink styleClass="btn btn-default" action="#{catalogMB.gotoEdit(row.id)}"><i class="fa fa-edit"></i> Edit</h:commandLink>
+                                </h:form>
+                            </h:column>
+
+                        </h:dataTable>                    
+                    </div>
+            <div class="clearfix"></div> 
+            </div>
+                <!-- /all-catalog list-->
+          </div>
+         </div>
+                   
+        </div>
+        </div>
+        <div class="clearfix"> </div>
+        <script>
+            $(document).ready(function(){
+                /* datatable normal*/
+                $('#tbNormalCatalog').DataTable({
+                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+                });
+                /* datatable inactive*/
+                $('#tbInactiveCatalog').DataTable({
+                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+                });
+                /* datatable all*/
+                $('#tbAllCatalog').DataTable({
+                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+                });
+                
+            });
+        </script>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition>
+            <style>                
+                .navbar-default .dropdown-menu > li  a:hover, 
+                .navbar-default .dropdown-menu > li  a:focus {
+                    color: #026660 !important;
+                    background-color: #e6e6e6 !important;
+                     text-decoration: none;
+                }
+                .navbar-default .dropdown-menu > li a {
+                    font-weight: bold ;
+                }
+                .dropdown-menu > li a {
+                    display: block;
+                    padding: 3px 20px;
+                    clear: both;
+                    font-weight: normal;
+                    line-height: 1.42857143;
+                    color: #333;
+                    white-space: nowrap;
+                }
+            </style>
+            <!--start-header-->
+            <div class="header">
+                <div class="container">
+                    <div class="row">
+                        <div class="top-header">
+                            <div class="col-md-3">
+                                <div class="logo">
+                                    <h:outputLink value="#{request.contextPath}/index.xhtml">
+                                        <h:graphicImage name="logo-sota.png" library="images"/>
+                                    </h:outputLink>                                   
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4 pull-right">
+                                <div class="social-icons">
+                                    <ul>
+                                        <li><h:outputLink value="#{request.contextPath}/cart/shopping-cart.xhtml" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"><i class="badge" style="background-color: orange;"><h:outputText value="#{cartMB.countItems()}"/></i></span></h:outputLink></li>
+                                        <li><h:form>
+                                            <h:commandLink rendered="#{usersMB.loginUsers == null}" action="#{usersMB.gotoLogin()}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Login</h:commandLink>
+                                        </h:form></li>
+                                        <li>
+                                            <h:form rendered="#{usersMB.loginUsers != null}">
+                                                <!-- member buttons -->
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Welcome <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <h:commandLink  action="#{usersMB.gotoProfile()}" styleClass="btn btn-link"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Profile</h:commandLink>
+                                                        </li> 
+                                                        <li role="separator" class="divider"></li>
+                                                        <li>
+                                                            <h:commandLink action="#{logoutMB.doLogout()}" class="btn btn-link"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Logout</h:commandLink>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <!-- /member button -->
+                                            </h:form></li>
+                                    </ul>
+                                </div>                                
+                            </div>                            
+                            <div class="clear"> </div>
+                        </div>
+                    </div>
+
+
+                    <!--start-top-nav-->
+                    <nav class="navbar navbar-default">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <h:outputLink styleClass="navbar-brand hidden-md hidden-lg hidden-sm" value="#{request.contextPath}/index.xhtml">Sota Cuisine</h:outputLink>
+                            </div>
+
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                <ul class="nav navbar-nav">
+                                    <li><h:outputLink value="#{request.contextPath}/index.xhtml" title="Home">
+                                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                                        </h:outputLink></li>
+                                    <c:forEach items="#{catalogMB.fetchMenuCatalog()}" var="row">
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="#{row.icons}"></i> <span><h:outputText value="#{row.name}" escape="false" /></span>  <span class="caret"></span></a>
+                                            <ul class="dropdown-menu">
+                                                <c:forEach items="#{catalogMB.fetchSubCatalogByParentId(row.id)}" var="r">
+                                                    <li>
+                                                        <h:form>
+                                                            <h:commandLink action="#{productMB.gotoCatalogPage(r.id)}">
+                                                                <h:outputText value="#{r.name}" escape="false" />
+                                                            </h:commandLink>
+                                                        </h:form>
+                                                    </li>
+                                                    <li role="separator" class="divider"></li>
+                                                </c:forEach>
+                                            </ul>
+                                        </li>
+                                    </c:forEach>
+                                    
+                                    
+                                    <li><a href="#{request.contextPath}/product/happyHours.xhtml"><i class="fa fa-flash"></i> Day Specialty</a></li>
+                                </ul>
+
+                                <ul class="nav navbar-nav navbar-right hidden-sm hidden-md">                                                                       
+                                    <li><h:outputLink value="#{request.contextPath}/about.xhtml" title="About">About</h:outputLink></li>
+                                    <li><h:outputLink value="#{request.contextPath}/contact.xhtml" title="Contact">Contact</h:outputLink></li>
+                                </ul>
+                                <h:form class="navbar-form navbar-right hidden-sm hidden-md">
+                                    <div class="input-group">
+                                        <h:inputText styleClass="form-control" value="#{productMB.searchStr}" a:placeholder="lookin' for..." id="srch-term"/>                                        
+                                        <div class="input-group-btn">
+                                            <h:commandButton value="Search" styleClass="btn btn-default" action="#{productMB.searchProducts()}"/>
+                                        </div>
+                                    </div>
+                                </h:form>                                
+                            </div><!-- /.navbar-collapse -->
+                        </div><!-- /.container-fluid -->
+                    </nav>
+                    <!-- /start-top-nav-->
+
+                </div>
+            </div>
+            <!--End-header-->
+        </ui:composition>
+    </body>
+</html>

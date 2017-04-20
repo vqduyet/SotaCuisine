@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../layout/mainLayout.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="title">
+        <title>Order History</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <style>
+            .tb-order .form-control{
+                border: 1px solid #ccc !important;
+            }
+            .page-title{
+                background-color: #ccc;
+                padding-top: 10px;
+                padding-bottom: 5px;
+                margin: 20px 10px 20px 5px;                
+                border-radius: 10px;
+                color: #026660;                
+            }
+            .page-title h3 {
+                font-size: x-large;
+                font-weight: bold;
+            }
+            .tb-order th {
+                text-align: center;
+                font-weight: bold;
+            }
+            .tb-order td {
+                text-align: center;
+                font-size: small;
+            }
+            .dataTables_wrapper>.row {
+                overflow: auto !important;                
+            }
+            table.dataTable{
+                font-size: 14px;
+            }
+            table.dataTable td{
+                vertical-align: middle !important;
+            }
+            table.dataTable a{
+                font-size: 11px;
+                margin: 2px;
+            }
+            .dataTables_info {
+                width: 60%;
+                float: left;
+            }
+            .dataTables_paginate {
+                float: right;
+            }
+            .dataTables_info, .dataTables_paginate{
+                font-size: 13px !important;
+            }
+        </style>
+        <div class="content">
+            <div class="container" style="margin-top: 20px; margin-bottom: 20px">
+                <div class="col-lg-3 col-md-3 col-sm-3 animated fadeIn" align="left">
+                    <br/>
+                    <div class="menu-account">
+                        <h3>
+                            <span style="font-weight: bold; font-size: x-large; color: #026660">INFORMATION</span>
+                        </h3>
+                        <ul>
+                            <li>
+                                <a href="profile.xhtml" style="padding-left: 10px; font-size: large"><i class="fa fa-user">&nbsp;&nbsp; Profile</i></a>
+                            </li>
+                            <li>
+                                <a href="changePassword.xhtml" style="padding-left: 10px; font-size: large"><i class="fa fa-key">&nbsp;&nbsp; Change Password</i></a>
+                            </li>
+                            <li>
+                                <a href="order_history.xhtml" style="padding-left: 10px; font-size: large"><i class="fa fa-history">&nbsp;&nbsp; Order History</i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-9 col-sm-9">
+                    <div class="col-lg-12 col-md-12 col-sm-12 page-title animated fadeInRight">
+                        <h3><i class="fa fa-history"></i> ORDER HISTORY</h3>
+                    </div>
+                    <div class="grid-3 grid_5 animated fadeInRight">
+                        <div class="but_list">
+                            <div id="myTabContent" class="tab-content">
+                                <!-- waiting list -->
+                                <div class="tb-order col-lg-12 col-md-12 col-sm-12">
+                                    <h:dataTable rendered="#{usersMB.fetchOrderByUser().size()>0}" 
+                                                 value="#{usersMB.fetchOrderByUser()}" var="row" 
+                                                 id="tbHistory" styleClass="table table-striped table-bordered" >
+                                        <h:column>
+                                            <!-- column header -->
+                                            <f:facet name="header">Order ID</f:facet>
+                                            <!-- row record -->
+                                            #{row.id}
+                                        </h:column>
+
+                                        <h:column>
+                                            <f:facet name="header">Date</f:facet>                        
+                                            <h:outputText value="#{row.created}" >
+                                                <f:convertDateTime pattern="dd-MM-yyyy" />
+                                            </h:outputText> 
+                                        </h:column>
+
+                                        <h:column>
+                                            <f:facet name="header">Total Quantity</f:facet>
+                                            #{row.quantity}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Total Amount</f:facet>
+                                            <i class="badge" style="background-color: #4c7576">
+                                                <h:outputText value="#{row.amount}">
+                                                    <f:convertNumber type="currency"
+                                                                     currencyCode="VND"
+                                                                     locale="vi-VN"/>
+                                                </h:outputText>
+                                            </i>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Shipping Fee</f:facet>
+                                            <i class="badge" style="background-color: #4c7576">
+                                                <h:outputText value="#{row.shippingFee}">
+                                                    <f:convertNumber type="currency"
+                                                                     currencyCode="VND"
+                                                                     locale="vi-VN"/>
+                                                </h:outputText>
+                                            </i>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Status</f:facet>
+                                            #{row.status}
+                                        </h:column>
+
+                                        <h:column>
+                                            <f:facet name="header">Action</f:facet>
+                                            <h:form>
+                                                <h:commandLink styleClass="btn btn-default" action="#{usersMB.gotoUserOrderDetail(row.id)}"><i class="fa fa-edit"></i> Detail</h:commandLink>
+                                            </h:form>
+                                        </h:column>
+
+                                    </h:dataTable>                                     
+                                    
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <!-- /canceled list -->	  
+                        </div>
+                        <!-- /toggle tabs -->
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <script>
+            $(document).ready(function() {
+                /* datatable waiting*/
+                $('#tbHistory').DataTable({
+                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+                });
+            });
+        </script>
+    </ui:define>
+
+</ui:composition>

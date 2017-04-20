@@ -1,0 +1,399 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    template="./../layout/adminLayout.xhtml">
+
+    <ui:define name="title">
+        <title>Order Dashboard</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <style>
+            .tb-order .form-control{
+                border: 1px solid #ccc !important;
+            }
+            .dataTables_info, .dataTables_paginate{
+                font-size: 13px !important;
+            }
+            .page-title{
+                background-color: #ccc;
+                padding-top: 10px;
+                padding-bottom: 5px;
+                margin: 0px 10px 20px 5px;                
+                border-radius: 10px;
+                color: #026660;                
+            }
+            .tb-order th {
+                text-align: center;
+            }
+            .dataTables_wrapper>.row {
+                overflow: auto !important;                
+            }
+            table.dataTable{
+                font-size: 14px;
+            }
+            table.dataTable td{
+                vertical-align: middle !important;
+            }
+            table.dataTable a{
+                font-size: 11px;
+                margin: 2px;
+            }
+            .dataTables_info {
+                width: 60%;
+                float: left;
+            }
+            .dataTables_paginate {
+                float: right;
+            }
+        </style>        
+        <div class="clearfix"></div>
+        <div class="col-md-12 page-title animated fadeInRight">
+            <h3><i class="fa fa-search"></i> ORDER DASHBOARD</h3>
+        </div>
+        <div class="clearfix"></div>
+        <div class="grid_3 grid_5">            
+	     <div class="but_list">
+	       <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
+                    <ul id="myTab" class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#waiting" id="waiting-tab" role="tab" data-toggle="tab" aria-controls="waiting" aria-expanded="true">Waiting <i class="badge badge-danger">#{viewOrderMB.fetchWaitingOrderList().size()}</i></a></li>
+                        <li role="presentation"><a href="#progress" role="tab" id="progress-tab" data-toggle="tab" aria-controls="progress">Progress <i class="badge">#{viewOrderMB.fetchProgressOrderList().size()}</i></a></li>
+                        <li role="presentation"><a href="#delivery" role="tab" id="delivery-tab" data-toggle="tab" aria-controls="delivery">Delivery <i class="badge">#{viewOrderMB.fetchDeliveryOrderList().size()}</i></a></li>
+                        <li role="presentation"><a href="#complete" role="tab" id="complete-tab" data-toggle="tab" aria-controls="complete">Complete</a></li>
+                        <li role="presentation"><a href="#canceled" role="tab" id="canceled-tab" data-toggle="tab" aria-controls="canceled">Canceled</a></li>
+                        <li role="presentation"><a href="#all" role="tab" id="all-tab" data-toggle="tab" aria-controls="all">All Orders</a></li> 
+                    </ul>
+                   <!-- toggle tabs -->
+		<div id="myTabContent" class="tab-content">
+                    <!-- waiting list -->
+		  <div role="tabpanel" class="tab-pane fade in active" id="waiting" aria-labelledby="waiting-tab">
+		    <div class="tb-order col-md-12">                        
+                            <h:dataTable rendered="#{viewOrderMB.fetchWaitingOrderList().size() > 0}" value="#{viewOrderMB.fetchWaitingOrderList()}" var="row" id="tbWaiting" styleClass="table table-striped table-bordered" >
+                                
+                            <h:column>
+                                <!-- column header -->
+                                <f:facet name="header">Order ID</f:facet>
+                                <!-- row record -->
+                                #{row.id}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Customer Name</f:facet>                        
+                                <h:outputText value="#{row.usersName}" escape="false"/>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Address</f:facet>
+                                #{row.shippingAddress} - #{row.district.district}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Phone</f:facet>
+                                #{row.usersPhone}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Status</f:facet>
+                                #{row.status}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Date</f:facet>
+                                <h:outputText value="#{row.created}" >
+                                    <f:convertDateTime pattern="dd-MM-yyyy" />
+                                </h:outputText>                                
+                            </h:column>
+                                
+                            <h:column>
+                                <f:facet name="header">Action</f:facet>
+                                <h:form>
+                                    <h:commandLink styleClass="btn btn-default" action="#{orderMB.gotoOrderDetail(row.id)}"><i class="fa fa-edit"></i> Edit</h:commandLink>
+                                    <h:commandLink styleClass="btn btn-sm btn-info" action="#{orderMB.proceedOrder(row.id, 'In progess')}"><i class="fa fa-forward"></i> Progress</h:commandLink>                                    
+                                </h:form>
+                            </h:column>                            
+                        </h:dataTable>
+                       
+                    </div>
+                      <div class="clearfix"></div>
+		  </div>
+                    <!-- /waiting list -->
+                    <!-- progress list -->
+		  <div role="tabpanel" class="tab-pane fade" id="progress" aria-labelledby="progress-tab">
+		    <div class="tb-order col-md-12">
+                        
+                        <h:dataTable rendered="#{viewOrderMB.fetchProgressOrderList().size() > 0}" value="#{viewOrderMB.fetchProgressOrderList()}" var="row" id="tbProgress" styleClass="table table-striped table-bordered" >
+                                
+                            <h:column>
+                                <!-- column header -->
+                                <f:facet name="header">Order ID</f:facet>
+                                <!-- row record -->
+                                #{row.id}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Customer Name</f:facet>                        
+                                <h:outputText value="#{row.usersName}" escape="false"/>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Address</f:facet>
+                                #{row.shippingAddress} - #{row.district.district}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Phone</f:facet>
+                                #{row.usersPhone}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Status</f:facet>
+                                #{row.status}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Date</f:facet>
+                                <h:outputText value="#{row.created}">
+                                    <f:convertDateTime pattern="dd-MM-yyyy" />
+                                </h:outputText>                                
+                            </h:column>
+                                
+                            <h:column>
+                                <f:facet name="header">Action</f:facet>
+                                <h:form>
+                                    <h:commandLink styleClass="btn btn-default" action="#{orderMB.gotoOrderDetail(row.id)}"><i class="fa fa-edit"></i> Edit</h:commandLink>
+                                    <h:commandLink styleClass="btn btn-sm btn-info" action="#{orderMB.proceedOrder(row.id, 'Delivery')}"><i class="fa fa-forward"></i> Delivery</h:commandLink>
+                                </h:form>
+                            </h:column>                            
+                        </h:dataTable>                        
+                    </div>
+                      <div class="clearfix"></div>
+		  </div>
+                    <!-- /progress list -->
+                    <!-- delivery list -->
+		  <div role="tabpanel" class="tab-pane fade" id="delivery" aria-labelledby="delivery-tab">
+		    <div class="tb-order col-md-12">
+                        <h:dataTable rendered="#{viewOrderMB.fetchDeliveryOrderList().size() > 0}" value="#{viewOrderMB.fetchDeliveryOrderList()}" var="row" id="tbDelivery" styleClass="table table-striped table-bordered" >
+                                
+                            <h:column>
+                                <!-- column header -->
+                                <f:facet name="header">Order ID</f:facet>
+                                <!-- row record -->
+                                #{row.id}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Customer Name</f:facet>                        
+                                <h:outputText value="#{row.usersName}" escape="false"/>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Address</f:facet>
+                                #{row.shippingAddress} - #{row.district.district}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Phone</f:facet>
+                                #{row.usersPhone}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Status</f:facet>
+                                #{row.status}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Date</f:facet>
+                                <h:outputText value="#{row.created}">
+                                    <f:convertDateTime pattern="dd-MM-yyyy" />
+                                </h:outputText>                                
+                            </h:column>
+                                
+                            <h:column>
+                                <f:facet name="header">Action</f:facet>
+                                <h:form>
+                                    <h:commandLink styleClass="btn btn-default" action="#{orderMB.gotoOrderDetail(row.id)}"><i class="fa fa-edit"></i> Edit</h:commandLink>
+                                    <h:commandLink styleClass="btn btn-sm btn-info" action="#{orderMB.proceedOrder(row.id, 'Delivery Compelete')}"><i class="fa fa-forward"></i> Complete</h:commandLink>                                    
+                                </h:form>
+                            </h:column>                            
+                        </h:dataTable>
+                    </div>
+                      <div class="clearfix"></div>
+		  </div>
+                    <!-- /delivery list -->
+                    <!-- complete list -->
+		  <div role="tabpanel" class="tab-pane fade" id="complete" aria-labelledby="complete-tab">
+		    <div class="tb-order col-md-12">
+                        <h:dataTable rendered="#{viewOrderMB.fetchCompleteOrderList().size() > 0}" value="#{viewOrderMB.fetchCompleteOrderList()}" var="row" id="tbComplete" styleClass="table table-striped table-bordered" >
+                                
+                            <h:column>
+                                <!-- column header -->
+                                <f:facet name="header">Order ID</f:facet>
+                                <!-- row record -->
+                                #{row.id}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Customer Name</f:facet>                        
+                                <h:outputText value="#{row.usersName}" escape="false"/>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Address</f:facet>
+                                #{row.shippingAddress} - #{row.district.district}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Phone</f:facet>
+                                #{row.usersPhone}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Status</f:facet>
+                                #{row.status}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Date</f:facet>
+                                <h:outputText value="#{row.created}" >
+                                    <f:convertDateTime pattern="dd-MM-yyyy" />
+                                </h:outputText>                                
+                            </h:column>
+                                
+                            <h:column>
+                                <f:facet name="header">Action</f:facet>
+                                <h:form>
+                                    <h:commandLink styleClass="btn btn-default" action="#{orderMB.gotoOrderDetail(row.id)}"><i class="fa fa-edit"></i> Edit</h:commandLink>
+                                </h:form>
+                            </h:column>                            
+                        </h:dataTable>
+                    </div>
+                      <div class="clearfix"></div>
+		  </div>
+                    <!-- /complete list -->
+                    <!-- canceled list -->
+		  <div role="tabpanel" class="tab-pane fade" id="canceled" aria-labelledby="canceled-tab">
+		    <div class="tb-order col-md-12">
+                        
+                        <h:dataTable rendered="#{viewOrderMB.fetchCancelOrderList().size() > 0}" value="#{viewOrderMB.fetchCancelOrderList()}" var="row" id="tbCanceled" styleClass="table table-striped table-bordered" >
+                                
+                            <h:column>
+                                <!-- column header -->
+                                <f:facet name="header">Order ID</f:facet>
+                                <!-- row record -->
+                                #{row.id}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Customer Name</f:facet>                        
+                                <h:outputText value="#{row.usersName}" escape="false"/>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Address</f:facet>
+                                #{row.shippingAddress} - #{row.district.district}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Phone</f:facet>
+                                #{row.usersPhone}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Status</f:facet>
+                                #{row.status}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Date</f:facet>
+                                <h:outputText value="#{row.created}" >
+                                    <f:convertDateTime pattern="dd-MM-yyyy" />
+                                </h:outputText>                                
+                            </h:column>
+                                
+                            <h:column>
+                                <f:facet name="header">Action</f:facet>
+                                <h:form>
+                                    <h:commandLink styleClass="btn btn-default" action="#{orderMB.gotoOrderDetail(row.id)}"><i class="fa fa-edit"></i> Edit</h:commandLink>
+                                </h:form>
+                            </h:column>                            
+                        </h:dataTable>
+                    </div>
+                      <div class="clearfix"></div>
+		  </div>
+                    <!-- /canceled list -->
+		  <!-- all list -->
+		  <div role="tabpanel" class="tab-pane fade" id="all" aria-labelledby="all-tab">
+		    <div class="tb-order col-md-12">
+                        <h:dataTable rendered="#{viewOrderMB.fetchAllOrderList().size() > 0}" value="#{viewOrderMB.fetchAllOrderList()}" var="row" id="tbAll" styleClass="table table-striped table-bordered" >
+                                
+                            <h:column>
+                                <!-- column header -->
+                                <f:facet name="header">Order ID</f:facet>
+                                <!-- row record -->
+                                #{row.id}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Customer Name</f:facet>                        
+                                <h:outputText value="#{row.usersName}" escape="false"/>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Address</f:facet>
+                                #{row.shippingAddress} - #{row.district.district}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Phone</f:facet>
+                                #{row.usersPhone}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Status</f:facet>
+                                #{row.status}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Date</f:facet>
+                                <h:outputText value="#{row.created}">
+                                    <f:convertDateTime pattern="dd-MM-yyyy" />
+                                </h:outputText>                                
+                            </h:column>
+                                
+                            <h:column>
+                                <f:facet name="header">Action</f:facet>
+                                <h:form>
+                                    <h:commandLink styleClass="btn btn-default" action="#{orderMB.gotoOrderDetail(row.id)}"><i class="fa fa-edit"></i> Edit</h:commandLink>
+                                </h:form>
+                            </h:column>                            
+                        </h:dataTable>
+                    </div>
+                      <div class="clearfix"></div>
+		  </div>
+                    <!-- /canceled list -->	  
+		</div>
+                <!-- /toggle tabs -->
+            </div>
+           </div>
+          </div>
+              
+        <div class="clearfix"> </div>
+        
+        <script>
+            $(document).ready(function(){
+                /* datatable waiting*/
+                $('#tbWaiting').DataTable({
+                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+                });
+                /* datatable progress*/
+                $('#tbProgress').DataTable({
+                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+                });
+                /* datatable delivery*/
+                $('#tbDelivery').DataTable({
+                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+                });
+                /* datatable complete*/
+                $('#tbComplete').DataTable({
+                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+                });
+                /* datatable canceled*/
+                $('#tbCanceled').DataTable({
+                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+                });
+                /* datatable all*/
+                $('#tbAll').DataTable({
+                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+                });
+            });
+        </script>
+    </ui:define>
+
+</ui:composition>

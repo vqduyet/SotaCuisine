@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    template="./layout/mainLayout.xhtml">
+
+    <ui:define name="title">
+        <title>Contact</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <style>
+            .must-have{
+                color: orange !important;
+                font-size: 15px;
+            }
+        </style>
+        <!--start-content-->
+        <div class="content">
+            <!--start-contact-->
+            <div class="contact">
+                <div class="wrap">
+                    <div class="section group">				
+                        <div class="col span_1_of_3">
+                            <div class="contact_info">
+                                <h3>Find Us Here</h3>
+                                <div class="map">
+                                    <iframe width="100%" height="175" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.co.in/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Lighthouse+Point,+FL,+United+States&amp;aq=4&amp;oq=light&amp;sll=26.275636,-80.087265&amp;sspn=0.04941,0.104628&amp;ie=UTF8&amp;hq=&amp;hnear=Lighthouse+Point,+Broward,+Florida,+United+States&amp;t=m&amp;z=14&amp;ll=26.275636,-80.087265&amp;output=embed"></iframe><br/><small><a href="https://maps.google.co.in/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=Lighthouse+Point,+FL,+United+States&amp;aq=4&amp;oq=light&amp;sll=26.275636,-80.087265&amp;sspn=0.04941,0.104628&amp;ie=UTF8&amp;hq=&amp;hnear=Lighthouse+Point,+Broward,+Florida,+United+States&amp;t=m&amp;z=14&amp;ll=26.275636,-80.087265" style="color:#666;text-align:left;font-size:0.85em">View Larger Map</a></small>
+                                </div>
+                            </div>
+                            <div class="company_address">
+                                <h3>Information :</h3>
+                                <p><label style="color: #BD7F1C;"><i class="fa fa-map-marker"></i> Address: </label> #19 Bac Hai St., P.15, Q.10, HCM</p>                           
+                            <p><label style="color: #BD7F1C;"><i class="fa fa-mail-forward"></i> Email: </label> sota_sa@sota.com</p>
+                            <p><label style="color: #BD7F1C;"><i class="fa fa-phone"></i> Phone number: </label> (08) 6868.6868</p>
+                            </div>
+                        </div>				
+                        <div class="col span_2_of_3">
+                            <div class="contact-form">
+                                <h3>Contact Us</h3>
+                                <h:form id="formContact">
+                                    <div>
+                                        <span><label>NAME</label> <i class="must-have">*</i></span>
+                                        <span><h:inputText value="#{contactMB.conName}" id="name"/></span>
+                                        <h:message for="name" style="color: red"/>
+                                    </div>
+                                    <div>
+                                        <span><label>E-MAIL</label> <i class="must-have">*</i></span>
+                                        <span><h:inputText value="#{contactMB.conEmail}" id="email"/></span>
+                                        <h:message for="email" style="color: red"/>
+                                    </div>
+                                    <div>
+                                        <span><label>MOBILE</label> <i class="must-have">*</i></span>
+                                        <span><h:inputText value="#{contactMB.conPhone}" id="phone"/></span>
+                                        <h:message for="phone" style="color: red"/>
+                                    </div>
+                                    <div>
+                                        <span><label>ADDRESS</label> <i class="must-have">*</i></span>
+                                        <span><h:inputText value="#{contactMB.conAddress}" id="address"/></span>
+                                        <h:message for="address" style="color: red"/>
+                                    </div>
+                                    <div>
+                                        <span><label>SUBJECT</label> <i class="must-have">*</i></span>
+                                        <span><h:inputTextarea value="#{contactMB.conContent}" id="content"/></span>
+                                        <h:message for="content" style="color: red"/>
+                                    </div>
+                                    <div>
+                                        <span>
+                                            <h:commandButton styleClass="mybutton" value="Submit" action="#{contactMB.insertContact()}"/>
+                                        </span>
+                                    </div>
+                                </h:form>
+
+                            </div>
+                        </div>				
+                    </div>
+                </div>
+            </div>
+            <!--End-contact-->
+            </div>
+            <!--End-content-->
+    </ui:define>
+
+
+</ui:composition>

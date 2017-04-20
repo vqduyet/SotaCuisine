@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    template="./../layout/mainLayout.xhtml">
+
+    <ui:define name="title">
+        <title>Happy Hours</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="content">
+            <div class="services">
+                <div class="wrap">
+                    <div class="container-fluid">
+                        <div class="col-md-12 col-sm-12 col-sx-12" style="padding-bottom: 15px">
+
+                            <div class="col-md-3 col-sm-3 col-sx-3">
+                                <div class="text-capitalize">                                
+                                    <h2 class="fontHappyHours" style="padding-top: 5px">Hurry up you time is running out....from now to 09 PM </h2>                            
+                                </div>
+                            </div>
+                            <div class="col-md-1 col-sm-1 col-sx-1">
+                                <div class="text-capitalize">                                
+
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8 col-sx-8" >
+                                <div class="your-clock">
+                                    <script>
+                                        $(document).ready(function() {
+                                            var currentDate = new Date();
+
+// Set some date in the past. In this case, it's always been since Jan 1
+                                            var pastDate = new Date(
+                                                    2017,
+                                                    currentDate.getMonth(),
+                                                    currentDate.getDate(), 21, 0, 0);
+
+// Calculate the difference in seconds between the future and current date
+                                            var diff = Math.round(pastDate.getTime() / 1000 - currentDate.getTime() / 1000);
+                                            //debugger;
+
+// Instantiate a coutdown FlipClock new FlipClock($('.your-clock'), {clockFace: 'DailyCounter')
+                                            clock = new FlipClock(
+                                                    $('.your-clock'),
+                                                    diff,
+                                                    {
+                                                        countdown: true
+                                                    });
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="animated zoomInUp">
+                        <ui:repeat value="#{productMB.fetchSpecialDishesToday()}" var="row">
+                            <!-- searched item -->
+                            <div class="gallery-grids">
+                                <div class="gallery-grid">
+                                    <a href="#">
+                                        <h:graphicImage style='width: 100%' value = "#{resource[row.imageLink]}"/>
+                                        <span>
+                                            <h:outputText value="#{row.price}">
+                                                <f:convertNumber type="currency"
+                                                                 currencyCode="VND"
+                                                                 locale="vi-VN"/>
+                                            </h:outputText>
+                                        </span>
+                                    </a>
+                                    <h4 style="color:#4c7576; font-weight: bold;">#{row.name}</h4>
+                                    <p style="height: 80px; overflow: hidden; text-align: justify; margin-bottom: 10PX">#{row.shortDescriptions}</p>
+                                    <div class="col-md-12 col-sm-12 col-sx-12">
+                                        <div class="gallery-button pull-left">
+                                            <h:form>
+                                                <h:commandLink action="#{productMB.gotoProductDetail(row.id)}"><i class="fa fa-book"></i> Details</h:commandLink>
+                                            </h:form>                                                        
+                                        </div>  
+                                        <div class="gallery-button pull-right">
+                                            <h:form>
+                                                <h:commandLink action="#{cartMB.addToCart(row)}"><i class="fa fa-cart-plus"></i> Add cart</h:commandLink>
+                                            </h:form>
+
+                                        </div>                                                      
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>                            
+                            </div>                        
+                            <!-- /searched item -->
+                        </ui:repeat>
+
+                                               
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </ui:define>
+
+
+
+</ui:composition>

@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <body>
+        <ui:composition  xmlns:h="http://xmlns.jcp.org/jsf/html"
+                         xmlns:f="http://xmlns.jcp.org/jsf/core"
+                         template="./../layout/mainLayout.xhtml">
+            <ui:define name="title">
+                <title>Food Gallery</title>
+            </ui:define>
+
+
+            <ui:define name="content">
+                <style>
+                    .gallery-grid {
+                        border: #ccc 1px solid;
+                        box-shadow: 3px 3px 1px #888888;
+                        border-radius: 7px;
+                        padding: 10px;
+                        margin-bottom: 15px;
+                    }
+
+                    .head-cart{
+                        margin-top: 20px;
+                    }
+                    .head-cart hr{
+                        border-top-color: #BD7F1C;            
+                    }
+                    .head-cart h1{
+                        font-size: xx-large;
+                        font-weight: bold;
+                        color: #BD7F1C;
+                    }            
+                </style>
+                <div class="content">
+                    <div class="gallerys">
+                        <div class="wrap">
+                            <div class="head-cart animated fadeInRight">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                               <h1><i class="fa fa-snowflake-o"></i> DISHES GALLERY <i class="badge" style="background-color: orange">#{productMB.productList.size()}</i></h1>
+                                           </div>                        
+                                    </div>
+                                    <div class="row">
+                                        <hr/>
+                                    </div>    
+
+                                </div>
+                                <div class="animated wobble">
+                                    <ui:repeat value="#{productMB.productList}" var="row" >
+                                        <!-- searched item -->
+                                        <div class="gallery-grids">
+                                            <div class="gallery-grid">
+                                                <a href="#">
+                                                    <h:graphicImage style='width: 100%' value = "#{resource[row.imageLink]}"/>
+                                                    <span>
+                                                        <h:outputText value="#{row.price}">
+                                                            <f:convertNumber type="currency"
+                                                                             currencyCode="VND"
+                                                                             locale="vi-VN"/>
+                                                        </h:outputText>
+                                                    </span>
+                                                </a>
+                                                <h4 style="color:#4c7576; font-weight: bold;">#{row.name}</h4>
+                                                <p style="height: 80px; overflow: hidden; text-align: justify; margin-bottom: 10PX">#{row.shortDescriptions}</p>
+                                                <div class="col-md-12 col-sm-12 col-sx-12">
+                                                    <div class="gallery-button pull-left">
+                                                        <h:form>
+                                                            <h:commandLink action="#{productMB.gotoProductDetail(row.id)}"><i class="fa fa-book"></i> Details</h:commandLink>
+                                                        </h:form>                                                        
+                                                    </div>  
+                                                    <div class="gallery-button pull-right">
+                                                        <h:form>
+                                                            <h:commandLink action="#{cartMB.addToCart(row)}"><i class="fa fa-cart-plus"></i> Add cart</h:commandLink>
+                                                        </h:form> 
+                                                    </div>                                                      
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>                            
+                                        </div>                        
+                                        <!-- /searched item -->
+                                    </ui:repeat>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>                    
+                        </div>
+                    </div>
+                </ui:define>
+            </ui:composition>
+
+        </body>
+    </html>

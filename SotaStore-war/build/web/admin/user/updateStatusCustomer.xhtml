@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                template="./../layout/adminLayout.xhtml"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="title">
+        <title>Update status</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <h3>UPDATE CUSTOMER STATUS</h3>
+        <div class="tab-content">
+            <div class="tab-pane active" id="horizontal-form">
+                <h:form class="form-horizontal">
+                    
+                    <div class="form-group">
+                        <h:outputLabel value="Id" class="col-sm-2 control-label"/>
+                        <div class="col-sm-8">
+                            <h:inputText class="form-control1" pt:placeholder="*" readonly="true" value="#{adminUsersMB.selectedCus.id}"/>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <h:outputLabel value="Username" class="col-sm-2 control-label"/>
+                        <div class="col-sm-8">
+                            <h:inputText class="form-control1" pt:placeholder="*" readonly="true" value="#{adminUsersMB.selectedCus.userName}"/>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <h:outputLabel value="Full name" class="col-sm-2 control-label"/>
+                        <div class="col-sm-8">
+                            <h:inputText class="form-control1" pt:placeholder="*" readonly="true" value="#{adminUsersMB.selectedCus.fullName}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputLabel value="Status" class="col-sm-2 control-label"/>
+                        <div class="col-sm-8">
+                            <h:selectOneMenu value="#{adminUsersMB.selectedCus.status}">
+                                <f:selectItem itemValue="Normal" itemLabel="Normal" />
+                                <f:selectItem itemValue="Inactive" itemLabel="Inactive" />
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <h:commandButton class="btn-success btn" value="Submit" action="#{adminUsersMB.updateStatusCustomer()}"/>
+                                <h:commandButton class="btn-inverse btn" value="Cancel" action="#{adminUsersMB.displayDetail(adminUsersMB.selectedCus.id)}"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <h:commandLink value="Back to customers list" action="#{adminUsersMB.displayShow()}"/>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>
+

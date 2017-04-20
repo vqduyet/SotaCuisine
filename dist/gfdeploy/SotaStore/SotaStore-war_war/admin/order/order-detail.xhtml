@@ -1,0 +1,264 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    template="./../layout/adminLayout.xhtml">
+
+    <ui:define name="title">
+        <title>Order Detail</title>
+    </ui:define>   
+
+    <ui:define name="content">
+        <style>
+            .page-title{
+                background-color: #ccc;
+                padding-top: 10px;
+                padding-bottom: 5px;
+                margin: 0px 10px 20px 5px;                
+                border-radius: 10px;
+                color: #026660;                
+            }
+            table.table-condensed td{
+                color: #000 !important;
+                font-size: 14px !important;
+            }
+            .dataTables_wrapper>.row {
+                overflow: auto !important;                
+            }
+            table.dataTable{
+                font-size: 14px;
+            }
+            table.dataTable a{
+                font-size: 11px;
+                margin: 2px;
+            }
+            .dataTables_info {
+                width: 60%;
+                float: left;
+            }
+            .dataTables_paginate {
+                float: right;
+            }
+            .tb-order .form-control{
+                border: 1px solid #ccc !important;
+            }
+            .dataTables_info, .dataTables_paginate{
+                font-size: 13px !important;
+            }
+            form textarea, form select{
+                background-color: #fff !important;
+            }
+            .msg-alert{
+                font-style: italic;
+                font-size: 13px;
+                color: #BD7F1C;
+            }
+            .msg-alert-lg li{
+                list-style-type: none;
+            }
+            .req{
+                color:red;
+            }
+        </style>
+        <div class="clearfix"></div>
+        <div class="col-md-12 page-title animated fadeInRight">
+            <h3 class="col-md-6"><i class="fa fa-file-text"></i> ORDER DETAILS</h3>
+            <div class="col-md-6">
+                <a href="#{request.contextPath}/admin/order/order-dashboard.xhtml" class="btn btn-info pull-right">Back to List <i class="fa fa-backward"></i></a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="grid_3 grid_5">
+            <div class="row">
+                <!-- order summary -->
+                <div class="col-md-5 animated fadeInDown" style="background-color: #eee; padding: 20px; border-radius: 7px;">
+                    <div class="row">
+                        <h3 style="font-size: 25px; font-weight: bold; text-align: center; margin-bottom: 10px; color:#4c7576;">Order Summary</h3>
+                        <h:messages globalOnly="true" styleClass="alert alert-success" />
+                    </div>
+                    <div class="row">
+                        <hr style="border-bottom: solid 1px #fff;"/>
+                    </div>
+                    <h:form>
+                        <div class="table-responsive">                        
+                            <table class="table table-condensed">               
+                            <tr>
+                              <td>Order ID </td>
+                              <td style="text-align: right;">#{orderMB.selectedOrder.id}</td>
+                            </tr>
+                            <tr>
+                              <td>Customer Name </td>
+                              <td style="text-align: right;">#{orderMB.selectedOrder.usersName}</td>
+                            </tr>
+                            <tr>
+                            <td>Phone </td>
+                            <td style="text-align: right;">#{orderMB.selectedOrder.usersPhone}</td>
+                            </tr>
+                            <tr>
+                              <td>Address <span class="req">*</span></td>
+                              <td style="text-align: right;">
+                                  <h:inputTextarea styleClass="form-control" id="address"
+                                                   cols="3" style="border-radius: 5px !important; background-color: #fff !important; border: 1px solid #ccc !important;"
+                                                   disabled="#{!orderMB.renderButton}"
+                                                   value="#{orderMB.selectedOrder.shippingAddress}"
+                                                   required="true" requiredMessage="Address cannot be blank."
+                                                   validatorMessage="Address cannot be over 200 characters.">
+                                      <f:validateLength maximum="200"/>
+                                      <f:converter converterId="converter.TrimConverter" />
+                                  </h:inputTextarea>
+                                  <h:message for="address" styleClass="msg-alert"/>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>District <span class="req">*</span></td>
+                              <td style="text-align: right;">
+                                  <h:selectOneMenu id="cbEditDistrict"
+                                                   style="background-color: #fff !important; border: 1px solid #ccc !important;" 
+                                                   value = "#{orderMB.editDistrictId}" styleClass="form-control"
+                                                   disabled="#{!orderMB.renderButton}"
+                                                   required="true" requiredMessage="District must be provided.">                                           
+                                    <f:selectItem itemValue="" itemLabel="-- Please select district --"/>
+                                    <f:selectItems value="#{orderMB.fetchAllShippingList()}" var="row" itemValue = "#{row.id}" itemLabel = "#{row.district}" /> 
+                                 </h:selectOneMenu>
+                                  <h:message for="cbEditDistrict" styleClass="msg-alert"/>
+                              </td>
+                            </tr>                        
+                            <tr>
+                              <td>Total Quantity </td>
+                              <td style="text-align: right;"><i class="badge badge-danger">#{orderMB.selectedOrder.quantity}</i></td>
+                            </tr>
+                            <tr>
+                              <td>Total Amount (+ VAT) </td>
+                              <td style="text-align: right;"><i class="badge badge-danger">
+                                <h:outputText value="#{orderMB.selectedOrder.amount}">
+                                    <f:convertNumber type="currency"
+                                                     currencyCode="VND"
+                                                     locale="vi-VN"/>
+                                </h:outputText>
+                                  </i></td>
+                            </tr>
+                            <tr>
+                              <td>Shipping Fee </td>
+                                <td style="text-align: right;"><i class="badge badge-danger">
+                                  <h:outputText value="#{orderMB.selectedOrder.shippingFee}">
+                                    <f:convertNumber type="currency"
+                                                     currencyCode="VND"
+                                                     locale="vi-VN"/>
+                                  </h:outputText>
+                                </i></td>
+                            </tr>
+                            <tr>
+                                <td>Date </td>
+                                <td style="text-align: right;">
+                                    <h:outputText value="#{orderMB.selectedOrder.created}" >
+                                        <f:convertDateTime pattern="dd-MM-yyyy" />
+                                    </h:outputText>
+                                </td>
+                            </tr>
+                            <tr>
+                              <td>Status <span class="req">*</span></td>
+                              <td style="text-align: right;">
+                                  <h:selectOneMenu id="cbOrderStatus"
+                                      style="background-color: #fff !important; border: 1px solid #ccc !important;" 
+                                      value = "#{orderMB.selectedOrder.status}" styleClass="form-control"
+                                      disabled="#{!orderMB.renderButton}"
+                                      required="#{orderMB.renderButton}" requiredMessage="Order status must be provided.">
+                                    <f:selectItem itemValue="" itemLabel="-- Please select district --"/>
+                                    <f:selectItem itemValue="Waiting" itemLabel="Waiting"/>
+                                    <f:selectItem itemValue="In progess" itemLabel="In progress"/>
+                                    <f:selectItem itemValue="Delivery" itemLabel="Delivery"/>
+                                    <f:selectItem itemValue="Delivery Compelete" itemLabel="Delivery Complete"/>
+                                    <f:selectItem itemValue="Cancel" itemLabel="Cancel"/>
+                                 </h:selectOneMenu>
+                                  <h:message for="cbOrderStatus" styleClass="msg-alert"/>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Note </td>
+                              <td style="text-align: right;">
+                                  <h:inputTextarea styleClass="form-control"
+                                                   cols="3" style="border-radius: 5px !important; background-color: #fff !important; border: 1px solid #ccc !important;"
+                                                   disabled="#{!orderMB.renderButton}"
+                                                   value="#{orderMB.selectedOrder.note}">
+                                      <f:converter converterId="converter.TrimConverter" />
+                                  </h:inputTextarea>                              
+                              </td>
+                            </tr>
+                          </table>
+                            <hr style="border-bottom: solid 1px #fff;"/>
+                            <div class="col-md-offset-4">
+                                <h:commandButton rendered="#{orderMB.renderButton}" value="Update" action="#{orderMB.updateOrder()}" styleClass="btn btn-success" />
+                                <h:commandButton value="Reset" type="reset" styleClass="btn btn-inverse" />
+                            </div>
+
+                        </div>    
+                    </h:form>
+                    
+                </div>
+                <!-- /order summary -->
+                <!-- order details -->
+                <div class="col-md-7 animated fadeInRight" >
+                  <div class="checkout-cart" style="padding: 20px; margin-bottom: 15px; background-color: #eee;  border-radius: 7px;">
+                        <div class="row">                            
+                            <h3 style="font-size: 25px; font-weight: bold; text-align: center; margin-bottom: 10px; color:#4c7576;">Order Detail</h3>                                                  
+                        </div>                        
+                        <div class="row">
+                            <hr style="border-bottom: solid 1px #fff;"/>
+                        </div>
+                      
+                        <!-- item -->
+                        <c:forEach items="#{orderMB.selectedOrderDetail}" var="row">
+                            <div class="cart-item">
+                                <div class="col-md-3">
+                                    <h:graphicImage height="100px"  style="object-fit: cover; max-height: 100px;" value="#{resource[row.products.imageLink]}" class="img-responsive"/>
+                                </div>
+                                <div class="col-md-9" style="margin-bottom: 20px;">                                
+                                    <h3 style="margin-bottom: 5px; margin-top: 5px; font-weight: bold;">
+                                        <h:outputText escape="false" value="#{row.products.name}" />
+                                    </h3>
+                                    <table class="table">
+                                        <tr>
+                                            <td>Quantity: <i class="badge badge-primary">#{row.quantity}</i></td>
+                                            <td>Price: 
+                                                <i class="badge badge-primary">
+                                                    <h:outputText value="#{row.price}">
+                                                        <f:convertNumber type="currency"
+                                                                         currencyCode="VND"
+                                                                         locale="vi-VN"/>
+                                                    </h:outputText>
+                                                </i>
+                                            </td>
+                                            <td>Subtotal: 
+                                                <i class="badge badge-primary">
+                                                    <h:outputText value="#{row.amount}">
+                                                        <f:convertNumber type="currency"
+                                                                         currencyCode="VND"
+                                                                         locale="vi-VN"/>
+                                                    </h:outputText>
+                                                </i>
+                                            </td>
+                                        </tr>
+                                    </table>                                
+                                </div>
+                            </div>  
+                        
+                        </c:forEach>
+                        <!-- / item -->
+                      
+                        <div class="clearfix"></div>
+                    </div>
+                    
+                </div>
+                <!-- /order details -->
+            </div>
+            
+        </div>
+        <div class="clearfix"> </div>
+            
+    </ui:define>   
+
+</ui:composition>

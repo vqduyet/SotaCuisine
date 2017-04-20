@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    template="./../layout/adminLayout.xhtml">
+
+    <ui:define name="title">
+        <title>Slides List</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <style>
+            .tb-order .form-control{
+                border: 1px solid #ccc !important;
+            }
+            .dataTables_info, .dataTables_paginate{
+                font-size: 13px !important;
+            }
+            .page-title{
+                background-color: #ccc;
+                padding-top: 10px;
+                padding-bottom: 5px;
+                margin: 0px 10px 20px 5px;                
+                border-radius: 10px;
+                color: #026660;                
+            }
+            .tb-order th, .tb-order td {
+                text-align: center;
+            }
+            .dataTables_wrapper>.row {
+                overflow: auto !important;                
+            }
+            table.dataTable{
+                font-size: 14px;
+            }
+            table.dataTable td{
+                vertical-align: middle !important;
+            }
+            table.dataTable a{
+                font-size: 11px;
+                margin: 2px;
+            }
+            .dataTables_info {
+                width: 60%;
+                float: left;
+            }
+            .dataTables_paginate {
+                float: right;
+            }
+            .msg-alert{
+                font-style: italic;
+                font-size: 13px;
+                color: #BD7F1C;
+            }
+            .msg-alert-lg li{
+                list-style-type: none;
+            }
+        </style>
+        <div class="clearfix"></div>
+        <div class="col-md-12 page-title animated fadeInRight">
+            <h3><i class="fa fa-sliders"></i> SLIDE LIST</h3>
+            <div class="col-md-8 col-md-offset-2 msg-alert-lg">
+                <h:messages globalOnly="true" styleClass="alert alert-success" />
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="grid_3 grid_5">
+            <div class="tb-order col-md-12"> 
+                <h:dataTable value="#{slideMB.allSlides}" var="row" id="tbSlides" styleClass="table table-striped table-bordered" >
+                    <h:column>
+                        <!-- column header -->
+                        <f:facet name="header">Slide ID</f:facet>
+                        <!-- row record -->
+                        #{row.id}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Slide Name</f:facet>                        
+                        <h:outputText value="#{row.name}" escape="false"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Image</f:facet>
+                        <h:graphicImage style="margin-top: 5px;" value="#{resource[row.imageLink]}" styleClass="img-responsive" width="80px;" />
+                    </h:column>                    
+                    <h:column>
+                        <f:facet name="header">Image link</f:facet>
+                        #{row.imageLink}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Sort Order</f:facet>
+                        #{row.sortOrder}
+                    </h:column>
+                    
+                    <h:column>
+                        <f:facet name="header">Action</f:facet>
+                        <h:form>
+                            <h:commandLink styleClass="btn btn-default" action="#{slideMB.gotoEdit(row.id)}"><i class="fa fa-edit"></i> Edit</h:commandLink>
+                            <h:commandLink styleClass="btn btn-success" action="#{slideMB.delete(row.id)}"><i class="fa fa-remove"></i> Delete</h:commandLink>
+                        </h:form>
+                    </h:column>
+                    
+                </h:dataTable>           
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"> </div>
+        <script>
+            $(document).ready(function(){
+                /* datatable normal*/
+                $('#tbSlides').DataTable({
+                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+                });                
+                
+            });
+        </script>
+    </ui:define>
+
+</ui:composition>

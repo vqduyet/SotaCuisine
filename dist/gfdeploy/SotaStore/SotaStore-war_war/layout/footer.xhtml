@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <body>
+        <ui:composition>
+            <style>               
+                .footer-ul{
+                    color: #A3A3A3;
+                    font-size: 13px;
+                    line-height: 1.8em;
+                }
+                ul.footer-ul{
+                    list-style-type:disc;
+                    padding-left: 40px;
+                }
+                ul.footer-ul li{
+                    display: list-item;
+                }
+            </style>
+            <!--start-footer-->
+            <div class="footer">
+                <div class="container-fluid">
+                    <div class="wrap">
+                        <div class="footer-grid">                            
+                            <h3>About us</h3>
+                            <p>To ensure that each guest receives prompt, professional, friendly and courteous service. To maintain a clean, comfortable and well maintained premises for our guests and staff. To provide at a fair price – nutritional, well-prepared meals – using...</p>
+                            <h:outputLink value="#{request.contextPath}/about.xhtml">Read More</h:outputLink>                                                   
+                        </div>
+                        
+                        <div class="footer-grid">
+                            <h3>DID YOU KNOW?</h3>
+                            <p><span style="color: #BD7F1C; font-size: 20px;" class="fa fa-trophy"></span> Become our member and get bunches of privileges:</p>
+                            <ul class="footer-ul">
+                                <li>Accumulate scores after orders completed.</li>
+                                <li>Apply scores for discount.</li>
+                                <li>Checkout faster with registered address.</li>
+                                <li>Track status of current order.</li>
+                                <li>Review order history.</li>
+                            </ul>
+                            <h:outputLink value="#{request.contextPath}/register.xhtml">Register Now</h:outputLink>
+                            
+                        </div>
+                        
+                        <div class="footer-grid twitts">
+                            <h3>Contact Us</h3>
+                            <p><label style="color: #BD7F1C;"><i class="fa fa-map-marker"></i> Address: </label> #19 Bac Hai St., P.15, Q.10, HCM</p>                           
+                            <p><label style="color: #BD7F1C;"><i class="fa fa-mail-forward"></i> Email: </label> sota_sa@sota.com</p>
+                            <p><label style="color: #BD7F1C;"><i class="fa fa-phone"></i> Phone number: </label> (08) 6868.6868</p>
+                            <h:outputLink value="#{request.contextPath}/contact.xhtml">More to Share</h:outputLink>                           
+                        </div>
+                        
+                        <div class="clear"> </div>
+                    </div>
+                    <div class="clear"> </div>
+                </div>
+                <div class="clear"> </div>
+            </div>
+            <div class="copy-right">
+                <div class="top-to-page">
+                    <a href="#top" class="scroll"> </a>
+                    <div class="clear"> </div>
+                </div>
+                <p>2017 &copy; SOTA FOODS &amp; DRINKS</p>
+            </div>
+            <!--End-footer-->            
+        </ui:composition>
+    </body>
+
+</html>

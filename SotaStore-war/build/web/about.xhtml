@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    template="./layout/mainLayout.xhtml">
+
+    <ui:define name="title">
+        <title>About</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <style>
+            .header-about{
+                font-size: 72px;
+                line-height: 72px;
+            }
+            .header-about h3{
+                padding: 30px 20px 40px;
+                text-align: center;
+                color: #fff;
+            }
+            .about-info{
+                margin-bottom: 20px;
+                margin-top: 40px;
+            }
+            .about-info h1{
+                color: #BD7F1C;
+                margin-bottom: 10px;
+                font-size: 1.8em;
+                text-align: center;
+                font-family: "Open Sans",sans-serif;
+            }
+        </style>
+        <!--start-content-->
+        <div class="content">
+            <!--start-about-->
+            <div class="about-us">
+                <div class="wrap">
+                    <div class="header-about">
+                        <h3 style="background-image: url(#{resource['images/header-red.jpg']});">About us</h3>                       
+                    </div>
+                    
+                    <div class="about-info">
+                        <h1>BACK STORY</h1>
+                        <p>As the mother of four athletic boys, Sota had to figure out a way to get them to eat their veggies while staying healthy. Because serving a dressing full of artificial ingredients was not an option, she created and perfected her own all-natural recipe. When her oldest son, Phuong, realized how great it was, he said, “Mom, let’s go into business together and make this for the world!” As Sota's All Natural grows its product line around the globe, the commitment to healthy eating and healthy living remains the core of the company's mission.</p>
+                    </div>
+                    
+                    <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+                        <div class="col-md-8 col-md-offset-2">
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <video width="320" height="240" controls="controls">
+                                <source src="#{resource['video/restaurant-intro.mp4']}" type="video/mp4"/>
+                              Your browser does not support the video tag.
+                            </video>
+                            </div>
+                            
+                        </div>
+                    </div>                   
+                                       
+                </div>
+                <div class="testmonials">
+                    <div class="wrap">
+                        <div class="testmonial-grid">
+                            <h3 style="color: #BD7F1C;">MISSION STATEMENT</h3>
+                            <p>" To ensure that each guest receives prompt, professional, friendly and courteous service. To maintain a clean, comfortable and well maintained premises for our guests and staff. To provide at a fair price – nutritional, well-prepared meals – using only quality ingredients. To ensure that all guests and staff are treated with the respect and dignity they deserve. To thank each guest for the opportunity to serve them. By maintaining these objectives we shall be assured of a fair profit that will allow us to contribute to the community we serve. "</p>
+                            <h4> - Sota Cuisine</h4>
+                        </div>
+                    </div>
+                </div>
+                <!--End-about-->
+            </div>
+            <!--End-content-->
+            </div>
+    </ui:define>
+
+</ui:composition>

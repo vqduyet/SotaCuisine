@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    template="./../layout/mainLayout.xhtml"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        <title>Food Detail</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <style>
+            .rating-symbol .glyphicon-star{
+                color: #BD7F1C;
+            }
+            .msg-alert{
+                font-style: italic;
+                font-size: 13px;
+                color: #BD7F1C;
+            }
+        </style>
+        <div class="wrap" style="margin-top: 10px">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-3 col-sm-3 col-sx-3">
+                        <!--Begin-->
+                        <div class="box-sale-policy">
+                            <h3>Sales Policy</h3>
+                            <div class="sale-policy-block">
+                                <ul>
+                                    <li>Deliver within city</li>
+                                    <li>Cash on Delivery</li>
+                                    <li>Order from 9AM - 9PM</li>
+                                    <li>Cannot cancel while delivering</li>
+                                    <li>Delivery fee base on location</li>
+                                </ul>
+                            </div>
+                            <div class="buy-guide">
+                                <h3>Buy Guide</h3>
+                                <ul>
+                                    <li>Oder directly from website
+                                        <b style="font-weight: bold;font-size: 10pt ; display: inline-block">http://www.sotacusine.xxx</b>
+                                    </li>
+                                    <li>Order online only</li>
+                                    <li>Calling
+                                        <b  style="font-weight: bold">088000000000</b>
+                                        for supporting
+                                    </li>                                    
+                                </ul>
+                            </div>
+                        </div>
+                        <!--End-->
+                    </div>
+                    <div class="col-md-9 col-sm-9 col-sx-12">
+                        <div class="breadcrumb clearfix">
+                            <ul>
+                                <li itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="" class="home">
+                                    <a title="Back to HomePage" href="#{request.contextPath}/index.xhtml">Home</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="product-detail clearfix">
+                            <!--Begin-->
+                            <div class="product-block clearfix">    
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-sx-12 profile_img1 clearfix">
+                                        <div class="sp-loading" style="display: none;">
+                                            <img src="#{resource['images/sp-loading.gif']}" alt="">
+                                                <br>LOADING IMAGES</br>
+                                            </img>
+                                        </div>
+                                        <div class="sp-wrap" style="display: inline-block;">
+                                            <div class="sp-large">
+                                                <a href="#" class="sp-current-big">
+                                                    <h:graphicImage value = "#{resource[productMB.selectedProduct.imageLinkDetail]}"/>
+                                                </a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-sx-12 clearfix">
+                                        <h2><h:outputText value="#{productMB.selectedProduct.name}" escape="false" /></h2>
+                                        <div class="general">
+                                            <div class="col-md-6 col-sm-6 col-sx-12">
+                                                <p:rating value="#{productMB.currentRate}" readonly="true"/>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 col-sx-12">                                                
+                                                <h5>Total Rating: <i class="badge"><h:outputText value="#{productMB.selectedProduct.rateTotal}"/></i></h5>
+                                            </div>                                            
+                                        </div>
+                                        <div class="general">
+                                            <div class="col-md-6 col-sm-6 col-sx-12">
+                                                <h4>Total Bought: <i class="badge"><h:outputText value="#{productMB.selectedProduct.bought}"/></i></h4>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 col-sx-12">
+                                                <h4>Total Views: <i class="badge"><h:outputText value="#{productMB.selectedProduct.viewNo}"/></i></h4>
+                                            </div>
+                                        </div>
+                                        <div class="price" >
+                                            <!--<div class="col-md-4 col-sm-4 col-sx-12">
+                                                <span class="price-new">Price: </span>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 col-sx-12" style="padding-top: 5px">
+                                                <span class="price-new" style="border-radius: 7px; padding: 10px">50.000 đ</span>
+                                            </div>
+                                            -->
+                                            <div class="col-md-12 col-sm-12 col-sx-12">
+                                                <h:form class="form-horizontal">
+                                                    <div class="form-group">
+                                                        <div class="col-md-6 col-sm-6 col-sx-12" style="padding-top: 5px" align="center">
+                                                            <span class="price-new" style="border-radius: 7px; padding: 7px">
+                                                                <h:outputText value="#{productMB.selectedProduct.price}">
+                                                                    <f:convertNumber type="currency"
+                                                                                     currencyCode="VND"
+                                                                                     locale="vi-VN"/>
+                                                                </h:outputText>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-md-5 col-sm-5 col-sx-12" align="center">   
+                                                            <label class="col-md-6 col-sm-6 col-sx-6 control-label" style="padding-top: 5px">Quantity</label>
+                                                            <div class="col-md-2 col-sm-2 col-sx-6">                                                                
+                                                                <h:inputText id="qtyInDetail" 
+                                                                            styleClass="text" 
+                                                                             style="width: 50px" 
+                                                                             value="#{cartMB.qtyItemDetail}"
+                                                                             required="true" requiredMessage="Quantity cannot be blank."
+                                     converterMessage="Quantity must be integer number."
+                                     validatorMessage="Quantity must in range of 1 - 20.">
+                                                                    <f:validateLongRange minimum="1" maximum="20"/>
+                                                                    <f:converter converterId="converter.TrimConverter" />
+                                                                </h:inputText>
+                                                            </div>
+                                                            <h:message for="qtyInDetail" styleClass="msg-alert"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group" style="padding-top: 5px" align="center">
+                                                        <div class="ol-md-11 col-sm-11 col-sx-12">
+                                                            <div class="gallery-button">
+                                                                <h:commandLink action="#{cartMB.addQtyItem()}"><i class="fa fa-cart-plus"></i> Add cart</h:commandLink>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </h:form>
+                                            </div>
+                                        </div>  
+                                    </div>                                       
+                                </div>
+                            </div>
+                        </div>
+                        <!--End-->
+                        <div class="col-md-12 col-sm-12 col-sx-12">                        
+                            <div class="row">
+                                <!-- tabs-->
+                                <div id="checkoutTab" class="col-md-12 col-sm-12 col-sx-12" style="margin: 5px">	
+                                    <ul class="nav nav-tabs" style="margin: 5px">
+                                        <li class="active"><a  href="#1" data-toggle="tab" style="color: #03a9f4">Descriptions</a></li>
+                                        <li><a href="#2" data-toggle="tab" style="color: #03a9f4">Rating</a></li> 
+                                    </ul>
+                                    <div class="tab-content " style="margin: 5px">
+                                        <div class="tab-pane active" id="1">
+                                            <div class="descripton>" style="text-align: left">
+                                                <h:outputText value="#{productMB.selectedProduct.decription}" escape="false" />
+                                            </div>                                        
+                                        </div>
+                                        <div class="tab-pane" id="2">
+                                            <h:form id="notMember" rendered="#{usersMB.loginUsers == null}">
+                                                <h3>Please login for rating</h3>
+                                            </h:form>
+                                            <h:form id="formRating" prependId="false" rendered="#{usersMB.loginUsers != null}">
+                                                <h3>Your rating will make us better</h3>
+                                                <div class="rate" style="margin: 10px">
+                                                    <h:outputText value="Rating"/>
+                                                    <p:rating value="#{productMB.currentRate}" stars="5">
+                                                        <p:ajax event="rate"
+                                                                listener="#{adminProductMB.updateProductRating(productMB.currentRate, productMB.selectedProduct.id)}"/>
+
+                                                    </p:rating>
+                                                    </div>
+                                            </h:form>
+                                        
+                                        </div>
+                                    </div>   
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /tabs-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+    </ui:define>
+</ui:composition>

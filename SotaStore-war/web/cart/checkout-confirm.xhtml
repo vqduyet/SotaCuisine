@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="./../layout/mainLayout.xhtml">
+
+    <ui:define name="title">
+        <title>Checkout-Confirm</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <style>
+            .main-content{
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+            label {
+                font-size: 13px;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }            
+            .cart-item {
+                margin-bottom: 10px;
+            }
+            .cart-item h3{
+                color: #4c7576;
+            }
+            .cart-item td{
+                font-size: 13px;
+            }
+            .tb-shipping-info{
+                font-size: 14px !important;
+            }
+            .tb-shipping-info td{
+                border-bottom: 1px solid #ddd !important;
+                border-top: none !important;
+            }
+            .head-cart hr{
+                border-top-color: #BD7F1C;            
+            }
+            .head-cart h1{
+                font-size: xx-large;
+                font-weight: bold;
+                color: #BD7F1C;
+            } 
+        </style>
+        <!--start-content-->
+        <div class="content">
+            <!--start-container-->     
+            <div class="container main-content">                
+                <div class="head-cart animated fadeInRight">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1><i class="fa fa-snowflake-o"></i> CHECKOUT :<i style="font-style: italic"> Review and Checkout</i></h1>
+                        </div>                        
+                    </div>
+                    <div class="row">
+                        <hr/>
+                    </div>
+                </div>
+                <!-- checkout:confirm -->
+                <div class="col-md-6 animated fadeInRight">
+                    <!-- confirm order -->
+                    <div class="chekout-method" style="padding: 20px; background-color: #ccc; margin-bottom: 15px; border-radius: 7px; box-shadow: 10px 10px 5px #888888;">
+                        <h1 style="font-size:  x-large;">You are almost done!</h1>
+                        <hr style="border-bottom: solid 1px orange;"/>
+                        <h:form>
+                            <h:commandLink action="#{cartMB.checkout()}" styleClass="btn btn-default" style="background-color: #4c7576; color: #FFF; font-weight: bold;"><i class="fa fa-paw"></i> CONFIRM ORDER</h:commandLink>
+                            <h:outputLink value="#{request.contextPath}/cart/checkout-shipping.xhtml" styleClass="btn btn-default pull-right" style="font-weight: bold;"><i class="fa fa-backward"></i> BACK TO SHIPPING INFO</h:outputLink>
+                        </h:form>
+                    </div>
+                    <!-- /confirm order -->
+                    <div class="checkout-total" style="padding: 20px; background-color: #ccc; margin-bottom: 15px; border-radius: 7px; box-shadow: 10px 10px 5px #888888;">  
+                        <div class="col-md-4" style="padding-top: 25px;">
+                            <img src="#{resource['images/billing-icon.png']}" class="img-responsive" />
+                        </div>
+                        <!-- total table -->
+                        <div class="col-md-8 pull-right">
+                            <div class="table-responsive">
+                                <h3 style="font-size: large; font-weight: bold; text-align: center; margin-bottom: 10px; color:#4c7576;">Order Summary</h3>
+                                <table class="table table-condensed">
+                                    <tr>
+                                        <td>Total Quantity :</td>
+                                        <td style="text-align: right;"><span class="badge">#{cartMB.countItems()}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pre-tax Total :</td>
+                                        <td style="text-align: right;"><span class="badge">
+                                            <h:outputText value="#{cartMB.total}">
+                                                <f:convertNumber type="currency"
+                                                                 currencyCode="VND"
+                                                                 locale="vi-VN"/>
+                                            </h:outputText>
+                                            </span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Score applied :</td>
+                                        <td style="text-align: right;"><span class="badge">
+                                            #{cartMB.scoreApplied}
+                                            </span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Discount by Score :</td>
+                                        <td style="text-align: right;"><span class="badge">
+                                            <h:outputText value="#{cartMB.scoreApplied*10000 }">
+                                                <f:convertNumber type="currency"
+                                                                 currencyCode="VND"
+                                                                 locale="vi-VN"/>
+                                            </h:outputText>
+                                            </span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>VAT (10%) :</td>
+                                        <td style="text-align: right;"><span class="badge">
+                                            <h:outputText value="#{(cartMB.total - cartMB.scoreApplied * 10000)*0.1}">
+                                                <f:convertNumber type="currency"
+                                                                 currencyCode="VND"
+                                                                 locale="vi-VN"/>
+                                              </h:outputText>
+                                            </span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-weight: bold;">Invoice Total :</td>
+                                        <td style="text-align: right;"><span class="badge" style="background-color: #4c7576;">
+                                            <h:outputText value="#{cartMB.calculateTotal()}">
+                                                <f:convertNumber type="currency"
+                                                                 currencyCode="VND"
+                                                                 locale="vi-VN"/>
+                                            </h:outputText>
+                                            </span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-weight: bold;">Shipping Fee</td>
+                                        <td style="text-align: right;"><i class="badge badge-primary" style="background-color: #4c7576;">
+                                                <h:outputText value="#{cartMB.fetchShippingFee()}">
+                                                <f:convertNumber type="currency"
+                                                                 currencyCode="VND"
+                                                                 locale="vi-VN"/>
+                                            </h:outputText>
+                                            </i></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /total table -->
+                        <div class="clearfix"></div>
+                    </div>
+                    <!-- shipping info -->
+                    <div class="chekout-shipping" style="padding: 20px; background-color: #ccc; margin-bottom: 15px; border-radius: 7px; box-shadow: 10px 10px 5px #888888;">
+                        <h1 style="font-size:  x-large; margin-bottom: 5px;"><i class="fa fa-truck"></i> Shipping Info</h1>           
+                        <hr style="border-bottom: solid 1px orange;"/>
+                        <div class="table-responsive" style="padding-left: 40px; padding-right: 20px;">
+                        <!-- shipping info -->
+                        <table class="table tb-shipping-info">
+                            <tbody>
+                                <tr>
+                                    <td>Your name</td>
+                                    <td><h:outputText value="#{cartMB.shippingInfo.customerName}" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Phone Number</td>
+                                    <td><h:outputText value="#{cartMB.shippingInfo.phone}" /></td>
+                                </tr>
+                                <tr>
+                                    <td>District</td>
+                                    <td><h:outputText value="#{cartMB.fetchShippingDistrictName()}" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Address</td>
+                                    <td><h:outputText value="#{cartMB.shippingInfo.address}" /></td>
+                                </tr>                                
+                            </tbody>
+                        </table>
+                        <!-- /shipping info -->
+                        </div>                        
+                    </div>
+                    <!-- /shipping info -->                    
+                </div>
+                <!-- /checkout:confirm --> 
+                <!-- my cart -->
+                <div class="col-md-6 animated fadeInLeft">
+                    <div class="checkout-cart" style="padding: 20px; margin-bottom: 15px; background-color: #ccc;  border-radius: 7px;">
+                        <div class="row">                            
+                            <h1 style="font-size:  x-large;" class="col-md-6"><i class="fa fa-shopping-bag"></i> MY BAG</h1>                                          
+                        </div>                        
+                        <div class="row">
+                            <hr style="border-bottom: solid 1px orange;"/>
+                        </div>
+                        <!-- item -->
+                        <ui:repeat value="#{cartMB.cart}" var="row" >
+                            <div class="cart-item">
+                                <div class="col-md-3">
+                                    <h:graphicImage height="100px"  style="object-fit: cover; max-height: 100px;" value="#{resource[row.p.imageLink]}" class="img-responsive"/>
+                                </div>
+                                <div class="col-md-9" style="margin-bottom: 20px;">                                
+                                    <h3 style="margin-bottom: 5px; margin-top: 5px; font-weight: bold;">
+                                        <h:outputText escape="false" value="#{row.p.name}" />
+                                    </h3>
+                                    <table class="table">
+                                        <tr>
+                                            <td>Quantity: <span class="badge badge-primary">#{row.quantity}</span></td>
+                                            <td>Price: 
+                                                <span class="badge badge-primary">
+                                                    <h:outputText value="#{row.p.price}">
+                                                        <f:convertNumber type="currency"
+                                                                         currencyCode="VND"
+                                                                         locale="vi-VN"/>
+                                                    </h:outputText>
+                                                </span>
+                                            </td>
+                                            <td>Subtotal: 
+                                                <span class="badge badge-primary">
+                                                    <h:outputText value="#{row.p.price * row.quantity}">
+                                                        <f:convertNumber type="currency"
+                                                                         currencyCode="VND"
+                                                                         locale="vi-VN"/>
+                                                    </h:outputText>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </table>                                
+                                </div>
+                            </div>  
+                        </ui:repeat>                                                                      
+                        <!-- / item -->                        
+                        
+                        <div class="clearfix"></div>
+                    </div>                    
+                </div>
+                <!-- /my cart --> 
+
+            </div>
+            <!-- /container-->
+        </div>
+        <!-- /content-->     
+    </ui:define>
+    
+
+</ui:composition>

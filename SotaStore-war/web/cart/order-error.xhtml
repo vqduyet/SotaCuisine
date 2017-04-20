@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                template="./../layout/mainLayout.xhtml">
+
+    <ui:define name="title">
+        <title>Order Error</title>
+    </ui:define>
+
+    
+    <ui:define name="content">
+        <style>
+            .main-content{
+                text-align: center;
+                margin-top: 40px;
+                margin-bottom: 20px;
+            }
+            hr{
+               border-bottom: solid 1px #fff; 
+            }
+        </style>
+        <!--start-content-->
+        <div class="content">
+            <!--start-container-->     
+            <div class="container main-content">
+                <div class="col-md-7 col-md-offset-3" style="background-color: #ddd; padding: 20px; border-radius: 10px; box-shadow: 10px 10px 5px #888888;">
+                    <div class="order-success-title">
+                        <h1 style="font-size: 30px; font-weight: bold; color:#4c7576; "><i style="color: orange;" class="fa fa-minus-circle"></i> OOPSSSS! YOUR ORDER ENCOUNTER PROBLEM...</h1>
+                    <hr/>
+                    </div>                
+                    <div class="order-success-content" style="line-height: 27px;">
+                        <h2 style="font-size: 20px;">WE ARE SORRY FOR THIS INCONVENIENCE</h2>       
+                        <p style="font-size: 13px;">Please keep trying to Sota again. Thanks!</p>
+                        <hr/>
+                    </div>
+                    <div class="order-success-footer">
+                        <a href="#{request.contextPath}/index.xhtml" class="btn btn-primary"><i class="fa fa-cart-plus"></i> Continue Sota</a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </ui:define>
+
+    
+
+</ui:composition>

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      template="./../layout/adminLayout.xhtml"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <!-- Bootstrap Core CSS -->
+        <h:outputStylesheet name="bootstrap.min.css" library="admin/css"/>
+        <!-- Custom CSS -->
+        <h:outputStylesheet name="style.css" library="admin/css"/>
+        <!-- font-awesome -->
+        <h:outputStylesheet name="font-awesome.css" library="admin/css"/>
+        <!-- webfonts -->
+        <h:outputStylesheet name="font_roboto.css" library="admin/css"/>
+        <!-- /css -->
+
+        <!-- jQuery -->
+        <h:outputScript name="jquery.min.js" library="admin/js"></h:outputScript>          
+        <!-- Bootstrap Core JavaScript -->
+        <h:outputScript name="bootstrap.min.js" library="admin/js"></h:outputScript>
+        <title>Login</title>
+    </h:head>
+    <h:body id="login">
+        <style>
+            .app-cam input[type='text'], .app-cam input[type='password']{
+                color: #000000 !important;
+                background-color: #a8ecec !important;
+                font-size: 1em !important;
+                font-weight: 500 !important;
+            }
+            .app-cam input[type='submit']{
+                font-size: 1.2em;
+                font-weight: bolder !important;
+            }
+        </style>
+        <div class="login-logo">
+            <a href="#{request.contextPath}/admin/index.xhtml"><img src="#{resource['admin/images/logo-sota-admin.png']}" alt=""/></a>
+        </div>
+        <h2 class="form-heading">login</h2>
+        <div class="app-cam">
+            <h:form id="formLoginAd">
+                <h:inputText class="text" pt:placeholder="username" value="#{adminMB.username}"/>
+                <h:inputSecret value="#{adminMB.password}" pt:placeholder="password"/>
+                <div class="submit"><h:commandButton value="Login" action="#{adminMB.login()}"/></div>
+                <h:message style="color: red" for="formLoginAd"/>
+                <div class="clearfix"></div>
+            </h:form>
+        </div>
+
+        <div class="copy_layout login">
+            <p>Copyright &copy; 2017 Sota Foods &amp; Drinks. All Rights Reserved</p>
+        </div>
+    </h:body>
+</html>
+
+
+

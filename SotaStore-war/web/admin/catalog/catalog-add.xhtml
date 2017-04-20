@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                template="./../layout/adminLayout.xhtml">
+
+    <ui:define name="title">
+        <title>Catalog-New</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <style>
+            .alert li{
+                list-style: none;
+            }
+            .page-title{
+                background-color: #ccc;
+                padding-top: 10px;
+                padding-bottom: 5px;
+                margin: 0px 10px 20px 5px;                
+                border-radius: 10px;
+                color: #026660;                
+            }
+            table.table-condensed td{
+                color: #000 !important;
+                font-size: 14px !important;
+            }
+            .dataTables_wrapper>.row {
+                overflow: auto !important;                
+            }
+            table.dataTable{
+                font-size: 14px;
+            }
+            table.dataTable a{
+                font-size: 11px;
+                margin: 2px;
+            }
+            .dataTables_info {
+                width: 60%;
+                float: left;
+            }
+            .dataTables_paginate {
+                float: right;
+            }
+            .tb-order .form-control{
+                border: 1px solid #ccc !important;
+            }
+            .dataTables_info, .dataTables_paginate{
+                font-size: 13px !important;
+            }
+            .req{
+                color:red;
+            }
+            .form-control{
+                background-color: #fff !important;
+                border-color: #ccc !important;
+                border-radius: 7px !important;
+            }
+            .tb-radio td{
+                padding-top: 7px;
+                padding-right: 15px;
+            }
+            .tb-radio td label{
+                padding-left: 3px;
+            }
+            .panel-footer .btn{
+                margin-right: 10px;
+            }
+        </style>
+        <div class="clearfix"></div>
+        <div class="col-md-12 page-title animated fadeInRight">
+            <h3 class="col-md-6"><i class="fa fa-plus-circle"></i> ADD NEW CATALOG</h3>
+            <div class="col-md-6">
+                <a href="#{request.contextPath}/admin/catalog/catalog-list.xhtml" class="btn btn-info pull-right">Back to Catalog List <i class="fa fa-backward"></i></a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div>
+            <!-- order summary --> 
+            <h:message for="addcatalogform" styleClass="alert alert-info" style = "color:red;margin:8px;"/>
+            <div class="row">
+                <h3 style="font-size: 25px; font-weight: bold; text-align: center; margin-bottom: 10px; color:#4c7576;">Catalog Info</h3>
+            </div>
+            <div class="row">
+                <hr style="border-bottom: solid 1px #fff;"/>
+            </div>
+            <h:form id="addcatalogform" class="form-horizontal" prependId="false">
+                <div class="form-group">
+                    <label for="catalog-name" class="col-sm-2 control-label">Catalog Name <span class="req">*</span></label>
+                    <div class="col-sm-8">
+                        <h:inputText styleClass="form-control" required="true" value="#{catalogMB.catalogNew.name}" a:placeholder="...catalog name" id="catalog-name" requiredMessage="Catalog Name can't be blank. Please enter value">                                          <f:converter converterId="converter.TrimConverter"/>
+                            <f:validateLength minimum="4"/>
+                        </h:inputText>
+                        <h:messages styleClass="alert alert-warning" for="catalog-name" style = "color:red;margin:8px;" />
+                    </div>                    
+                </div>
+                <div class="form-group">
+                    <label for="catalog-parent" class="col-sm-2 control-label">Parent Catalog <span class="req">*</span></label>
+                    <div class="col-sm-8">
+                        <h:selectOneMenu styleClass="form-control" id="catalog-parent" required="true" value = "#{catalogMB.catalogNew.parentId}">
+                            <f:selectItem itemValue="0" itemLabel="Is Parent Catalog"/>
+                            <f:selectItems value="#{catalogMB.fetchParentList()}" var="row" itemValue = "#{row.id}" itemLabel = "#{row.name}" /> 
+                         </h:selectOneMenu>                        
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="catalog-sort-order" class="col-sm-2 control-label">Sorting Order </label>
+                    <div class="col-sm-8">
+                        <h:inputText styleClass="form-control" value="#{catalogMB.catalogNew.sortOrder}" a:placeholder="...sorting order" id="catalog-sort-order"/>                        
+                    </div>                    
+                </div>
+                <div class="form-group">
+                    <label for="catalog-status" class="col-sm-2 control-label">Catalog Status </label>
+                    <div class="col-sm-8">
+                        <h:selectOneRadio styleClass="tb-radio" value = "#{catalogMB.defaultStatus}">
+                            <f:selectItem itemValue = "Normal" itemLabel = "Normal"  />
+                            <f:selectItem itemValue = "Inactive" itemLabel = "Inactive" />
+                         </h:selectOneRadio>                        
+                    </div>                    
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <h:commandButton value="Submit" action="#{catalogMB.addNewCatalog()}" styleClass="btn btn-success" />
+                            <h:commandButton value="Reset" type="reset" styleClass="btn btn-inverse" />
+                        </div>
+                    </div>
+                </div>
+                <div style="margin: 10px">
+                    
+                </div>
+            </h:form>
+            <!-- /order summary -->
+            <div class="clearfix"> </div>
+        </div>
+
+        <div class="clearfix"> </div>
+        </ui:define>
+
+    </ui:composition>

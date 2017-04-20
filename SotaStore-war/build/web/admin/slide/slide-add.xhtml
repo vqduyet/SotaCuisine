@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../layout/adminLayout.xhtml">
+
+    <ui:define name="title">
+        <title>Slide-New</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <style>
+            .page-title{
+                background-color: #ccc;
+                padding-top: 10px;
+                padding-bottom: 5px;
+                margin: 0px 10px 20px 5px;                
+                border-radius: 10px;
+                color: #026660;                
+            }
+            table.table-condensed td{
+                color: #000 !important;
+                font-size: 14px !important;
+            }
+            .dataTables_wrapper>.row {
+                overflow: auto !important;                
+            }
+            table.dataTable{
+                font-size: 14px;
+            }
+            table.dataTable a{
+                font-size: 11px;
+                margin: 2px;
+            }
+            .dataTables_info {
+                width: 60%;
+                float: left;
+            }
+            .dataTables_paginate {
+                float: right;
+            }
+            .tb-order .form-control{
+                border: 1px solid #ccc !important;
+            }
+            .dataTables_info, .dataTables_paginate{
+                font-size: 13px !important;
+            }
+            .req{
+                color:red;
+            }
+            .form-control{
+                background-color: #fff !important;
+                border-color: #ccc !important;
+                border-radius: 7px !important;
+            }
+            .tb-radio td{
+                padding-top: 7px;
+                padding-right: 15px;
+            }
+            .tb-radio td label{
+                padding-left: 3px;
+            }
+            .panel-footer .btn{
+                margin-right: 10px;
+            }
+            .msg-alert{
+                font-style: italic;
+                font-size: 13px;
+                color: #BD7F1C;
+            }
+            .msg-alert-lg li{
+                list-style-type: none;
+            }
+        </style>
+        
+        <div class="clearfix"></div>
+        <div class="col-md-12 page-title animated fadeInRight">
+            <h3 class="col-md-6"><i class="fa fa-plus-circle"></i> ADD NEW SLIDE</h3>
+            <div class="col-md-6">
+                <a href="#{request.contextPath}/admin/slide/slide-list.xhtml" class="btn btn-info pull-right">Back to Slide List <i class="fa fa-backward"></i></a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div>
+            <!-- order summary -->                
+            <div class="row">
+                <h3 style="font-size: 25px; font-weight: bold; text-align: center; margin-bottom: 10px; color:#4c7576;">Slide Info</h3>
+                <div class="col-md-8 col-md-offset-2 msg-alert-lg">
+                    <h:messages globalOnly="true" styleClass="alert alert-success" />
+                </div>
+            </div>
+            <div class="row">
+                <hr style="border-bottom: solid 1px #fff;"/>
+            </div>
+            <h:form class="form-horizontal" id="add-slide-form" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="slide-name" class="col-sm-2 control-label">Slide Name <span class="req">*</span></label>
+                    <div class="col-sm-8">
+                        <h:inputText styleClass="form-control" value="#{slideMB.newSlide.name}" 
+                                     a:placeholder="...slide name" id="slide-name"
+                                     required="true" requiredMessage="Slide name cannot be blank.">
+                            <f:converter converterId="converter.TrimConverter" />
+                        </h:inputText>                        
+                    </div>
+                    <h:message for="slide-name" styleClass="msg-alert"/>
+                </div>
+                <div class="form-group">
+                    <label for="slide-img" class="col-sm-2 control-label">Image <span class="req">*</span></label>
+                    <div class="col-sm-8">
+                        <h:inputFile value="#{slideMB.imgFile}" id="slide-img"
+                                     styleClass="form-control"                                     
+                                     validator="#{slideMB.validateFile}">                            
+                        </h:inputFile>                        
+                    </div>
+                    <h:message for="slide-img" styleClass="msg-alert"/>
+                </div>               
+                <div class="form-group">
+                    <label for="info" class="col-sm-2 control-label">Info <span class="req">*</span></label>
+                    <div class="col-sm-8">
+                        <h:inputText styleClass="form-control" 
+                                     value="#{slideMB.newSlide.info}" a:placeholder="...slide info" 
+                                     id="info"
+                                     required="true" requiredMessage="Info cannot be blank.">
+                            <f:converter converterId="converter.TrimConverter" />
+                        </h:inputText>                        
+                    </div>
+                    <h:message for="info" styleClass="msg-alert"/>
+                </div>
+                <div class="form-group">
+                    <label for="sort-order" class="col-sm-2 control-label">Sort Order <span class="req">*</span></label>
+                    <div class="col-sm-8">
+                        <h:inputText styleClass="form-control" 
+                                     value="#{slideMB.newSlide.sortOrder}" a:placeholder="...sort order" 
+                                     id="sort-order"
+                                    required="true" requiredMessage="Sort order cannot be blank."
+                                    converterMessage="Sort order must be integer number"
+                                    validatorMessage="Sort order should be positive integer.">
+                            <f:validateLongRange minimum="0"/>
+                            <f:converter converterId="converter.TrimConverter" />
+                        </h:inputText>                        
+                    </div>
+                    <h:message for="sort-order" styleClass="msg-alert"/>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2">
+                            
+                            <h:commandButton value="Submit" action="#{slideMB.addSlide()}" styleClass="btn btn-success" />
+                            <h:commandButton value="Reset" type="reset" styleClass="btn btn-inverse" />
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </h:form>
+            <!-- /order summary -->
+            <div class="clearfix"> </div>
+        </div>
+
+        <div class="clearfix"> </div>
+        
+        
+        </ui:define>
+
+    </ui:composition>
